@@ -2,10 +2,10 @@ import signale from "signale";
 import settings from "./settings.js";
 
 export default signale.config({
-  displayTimestamp: true,
+  displayDate: false,
   displayFilename: false,
+  displayTimestamp: true,
   displayLabel: true,
-  displayDate: true,
   displayScope: true
 });
 
