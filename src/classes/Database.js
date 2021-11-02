@@ -37,4 +37,15 @@ export default class Database {
     });
     signale.success("User created successfully!");
   }
+
+  async removeUser(email) {
+    const removeFlag = await User.deleteOne({ email: email });
+    
+    if (removeFlag.deletedCount === 0) {
+      signale.error("Could not find user.");
+      return;
+    }
+
+    return signale.success("Successfully Deleted User.");
+  }
 }

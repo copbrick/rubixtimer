@@ -11,11 +11,18 @@ const dbConn = process.env.DB_CONN;
 const app = express();
 
 const database = new Database(dbConn);
-database.createUser({
-  email: "sg@gmail.com",
-  username: "admin",
-  password: "admin",
-});
+
+async function main() {
+  // await database.createUser({
+  //   email: "anthonyjbenjamin@gmail.com",
+  //   username: "copbrick",
+  //   password: "ballz",
+  // });
+
+  // await database.removeUser("anthonyjbenjamin@gmail.com");
+}
+
+main().then(() => signale.success("Finished Main Function!"));
 
 import home from "./routes/home.js";
 app.use("/", home);
