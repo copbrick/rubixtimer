@@ -1,0 +1,30 @@
+{
+  "name": "rubixtimer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "cd src && nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/copbrick/rubixtimer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/copbrick/rubixtimer/issues"
+  },
+  "homepage": "https://github.com/copbrick/rubixtimer#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12",
+    "nodemon": "^2.0.14",
+    "path": "^0.12.7",
+    "signale": "^1.4.0",
+    "url": "^0.11.0"
+  }
+}
