@@ -1,4 +1,3 @@
-export default
-{
-    "debug" : "true"
-}
+export default {
+  debug: "true",
+};
