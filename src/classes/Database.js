@@ -20,15 +20,22 @@ export default class Database {
   }
 
   async findUser(email) {
-    return User.findOne({ email: email });
+    const user = await User.findOne({ email: email }).exec();
+
+    if (user === null) {
+      return signale.error("User couldn't be found.");
+    }
+
+    signale.success("User Successfully Found.");
+
+    return user;
   }
 
   async createUser({ email, username, password }) {
     const user = await User.findOne({ email: email });
     signale.start("Creating User...");
     if (user) {
-      signale.error("User already exists!");
-      return;
+      return signale.error("User already exists!");
     }
     await User.create({
       email: email,
@@ -40,12 +47,37 @@ export default class Database {
 
   async removeUser(email) {
     const removeFlag = await User.deleteOne({ email: email });
-    
+
     if (removeFlag.deletedCount === 0) {
       signale.error("Could not find user.");
       return;
     }
 
     return signale.success("Successfully Deleted User.");
+  }
+
+  async updateUser({
+    email,
+    username,
+    password,
+    profileImage,
+    statistics,
+    settings,
+  }) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        email: email,
+        username: username,
+        password: password,
+        profileImage: profileImage,
+        statistics: statistics,
+        settings: settings,
+      }
+    );
+
+    console.log(updatedUser);
   }
 }

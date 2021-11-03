@@ -19,7 +19,11 @@ async function main() {
   //   password: "ballz",
   // });
 
+  await database.findUser("anthonyjbenjamin@gmail.com")
+
   // await database.removeUser("anthonyjbenjamin@gmail.com");
+
+  // await database.updateUser("anthonyjbenjamin@gmail.com", {username: "Anthony12312"})
 }
 
 main().then(() => signale.success("Finished Main Function!"));
