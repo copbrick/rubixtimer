@@ -23,14 +23,16 @@ async function main() {
 
   // await database.removeUser("anthonyjbenjamin@gmail.com");
 
-  await database.updateStatistics("anthonyjbenjamin@gmail.com", {
-    average: "1900",
-    averageof5: "2000",
-  });
+  // await database.updateStatistics("anthonyjbenjamin@gmail.com", {
+  //   average: "1900",
+  //   averageof5: "2000",
+  // });
 
-  await database.updateSettings("anthonyjbenjamin@gmail.com", {
-    newUIMode: "dark",
-  });
+  // await database.updateSettings("anthonyjbenjamin@gmail.com", {
+  //   newUIMode: "dark",
+  // });
+
+  await database.clearStatistics("anthonyjbenjamin@gmail.com");
 }
 
 main().then(() => signale.success("Finished Main Function!"));

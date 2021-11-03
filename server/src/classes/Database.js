@@ -189,4 +189,44 @@ export default class Database {
 
     return signale.success("Setting successfully updated!");
   }
+
+  async clearStatistics(email) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        statistics: [],
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+
+    if (updatedUser === null) {
+      return signale.error("Couldn't find email. User not updated.");
+    }
+
+    return signale.success("Statistics successfully cleared!");
+  }
+
+  async clearSettings(email) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        settings: [],
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+
+    if (updatedUser === null) {
+      return signale.error("Couldn't find email. User not updated.");
+    }
+
+    return signale.success("Setting successfully cleared!");
+  }
 }
