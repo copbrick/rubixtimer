@@ -41,6 +41,7 @@ export default class Database {
       email: email,
       username: username,
       password: password,
+      profileImage: "",
     });
     signale.success("User created successfully!");
   }
@@ -56,47 +57,136 @@ export default class Database {
     return signale.success("Successfully Deleted User.");
   }
 
-  async updateUser({
-    email,
-    username,
-    password,
-    profileImage,
-    statistics,
-    settings,
-  }) {
+  async updateEmail(username, newEmail) {
     const updatedUser = await User.findOneAndUpdate(
       {
-        email: email,
+        username: username,
       },
       {
-        email: email,
-        username: username,
-        password: password,
-        profileImage: profileImage,
-        statistics: statistics,
-        settings: settings,
+        email: newEmail,
       },
       {
         returnDocument: "after",
       }
     );
 
-    // console.log(updatedUser);
+    if (updatedUser === null) {
+      return signale.error("Couldn't find username. User not updated.");
+    }
 
-    // let user = await this.findUser(email);
+    return signale.success("Email successfully updated!");
+  }
 
-    // // user = {
-    // //   email: email,
-    // //   username: username,
-    // //   password: password,
-    // //   profileImage: profileImage,
-    // //   statistics: statistics,
-    // //   settings: settings,
-    // // };
+  async updateUsername(email, newUsername) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        email: newUsername,
+      },
+      {
+        returnDocument: "after",
+      }
+    );
 
-    // user.username = username;
-    // await user.save();
+    if (updatedUser === null) {
+      return signale.error("Couldn't find email. User not updated.");
+    }
 
-    // console.log(user);
+    return signale.success("Username successfully updated!");
+  }
+
+  async updatePassword(email, newPassword) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        email: newPassword,
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+
+    if (updatedUser === null) {
+      return signale.error("Couldn't find email. User not updated.");
+    }
+
+    return signale.success("Password successfully updated!");
+  }
+
+  async updateProfileImage(email, newProfileImage) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        email: newProfileImage,
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+
+    if (updatedUser === null) {
+      return signale.error("Couldn't find email. User not updated.");
+    }
+
+    return signale.success("Profile Picture successfully updated!");
+  }
+
+  async updateStatistics(email, { average, averageof5 }) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        $push: {
+          statistics: [
+            {
+              average: average,
+              averageOf5: averageof5,
+            },
+          ],
+        },
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+
+    if (updatedUser === null) {
+      return signale.error("Couldn't find email. User not updated.");
+    }
+
+    return signale.success("Statistic successfully updated!");
+  }
+
+  async updateSettings(email, { newUIMode }) {
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        $push: {
+          settings: [
+            {
+              UIMode: newUIMode,
+            },
+          ],
+        },
+      },
+      {
+        returnDocument: "after",
+      }
+    );
+
+    if (updatedUser === null) {
+      return signale.error("Couldn't find email. User not updated.");
+    }
+
+    return signale.success("Setting successfully updated!");
   }
 }
