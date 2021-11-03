@@ -75,9 +75,28 @@ export default class Database {
         profileImage: profileImage,
         statistics: statistics,
         settings: settings,
+      },
+      {
+        returnDocument: "after",
       }
     );
 
-    console.log(updatedUser);
+    // console.log(updatedUser);
+
+    // let user = await this.findUser(email);
+
+    // // user = {
+    // //   email: email,
+    // //   username: username,
+    // //   password: password,
+    // //   profileImage: profileImage,
+    // //   statistics: statistics,
+    // //   settings: settings,
+    // // };
+
+    // user.username = username;
+    // await user.save();
+
+    // console.log(user);
   }
 }

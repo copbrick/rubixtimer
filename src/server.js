@@ -13,17 +13,20 @@ const app = express();
 const database = new Database(dbConn);
 
 async function main() {
-  // await database.createUser({
-  //   email: "anthonyjbenjamin@gmail.com",
-  //   username: "copbrick",
-  //   password: "ballz",
-  // });
+  await database.createUser({
+    email: "anthonyjbenjamin@gmail.com",
+    username: "copbrick",
+    password: "ballz",
+  });
 
-  await database.findUser("anthonyjbenjamin@gmail.com")
+  // await database.findUser("anthonyjbenjamin@gmail.com")
 
   // await database.removeUser("anthonyjbenjamin@gmail.com");
 
-  // await database.updateUser("anthonyjbenjamin@gmail.com", {username: "Anthony12312"})
+  // await database.updateUser(
+  //   { email: "anthonyjbenjamin@gmail.com" },
+  //   { username: "Anthony12312" }
+  // );
 }
 
 main().then(() => signale.success("Finished Main Function!"));
