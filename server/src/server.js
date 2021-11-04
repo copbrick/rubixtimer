@@ -32,7 +32,7 @@ async function main() {
   //   newUIMode: "dark",
   // });
 
-  await database.clearStatistics("anthonyjbenjamin@gmail.com");
+  // await database.clearStatistics("anthonyjbenjamin@gmail.com");
 }
 
 main().then(() => signale.success("Finished Main Function!"));
