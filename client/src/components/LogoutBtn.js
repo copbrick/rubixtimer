@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 function LogoutBtn() {
     return (
       <div>
-        <a href="/login">
+        <a href="/logout">
           <Button variant="contained">Logout</Button>
         </a>
       </div>
