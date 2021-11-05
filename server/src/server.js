@@ -10,7 +10,9 @@ dotenv.config({ path: "../config/.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
 const secret = process.env.SECRET;
+const baseURL = process.env.BASE_URL;
 const clientID = process.env.CLIENT_ID;
+const issuerBaseURL = process.env.ISSUER_BASE_URL;
 
 const app = express();
 
@@ -22,9 +24,9 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: `${secret}`,
-  baseURL: 'http://localhost:4000',
+  baseURL: `${baseURL}`,
   clientID: `${clientID}`,
-  issuerBaseURL: 'https://dev--qv8kyr1.us.auth0.com'
+  issuerBaseURL: `${issuerBaseURL}`
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
