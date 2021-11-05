@@ -8,7 +8,7 @@ import signaleConfig from "../../config/signaleConfig.js";
 
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
-  console.log(req.oidc.user);
+  console.log("Root Request Made: " + req.oidc.user);
 });
 
 export default router;

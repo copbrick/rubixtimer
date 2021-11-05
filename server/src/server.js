@@ -3,6 +3,7 @@ import express from "express";
 import signale from "signale";
 import signaleConfig from "../config/signaleConfig.js";
 import Database from "./classes/Database.js";
+
 import path from "path";
 const __dirname = path.resolve();
 
