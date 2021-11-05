@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "cd src && node server.js",
-    "dev" : "cd src && nodemon server.js",
+    "dev": "cd src && nodemon server.js",
     "test": "jest"
   },
   "repository": {

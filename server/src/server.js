@@ -20,14 +20,14 @@ const app = express();
 const database = new Database(dbConn);
 
 //import auth from express open id connect, and configure it
-import { auth } from "express-openid-connect" 
+import { auth } from "express-openid-connect";
 const config = {
   authRequired: `${authRequired}`,
   auth0Logout: `${auth0Logout}`,
   secret: `${secret}`,
   baseURL: `${baseURL}`,
   clientID: `${clientID}`,
-  issuerBaseURL: `${issuerBaseURL}`
+  issuerBaseURL: `${issuerBaseURL}`,
 };
 
 //auth router attaches /login, /logout, and /callback routes to the baseURL (auth middleware)
