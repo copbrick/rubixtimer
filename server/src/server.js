@@ -30,8 +30,6 @@ const config = {
 };
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
-
-
 app.use(auth(config));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
