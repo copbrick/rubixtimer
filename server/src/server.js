@@ -29,27 +29,15 @@ const config = {
 
 // auth router attaches /login, /logout, and /callback routes to the baseURL
 
-app.use(express.static(path.resolve(__dirname, '../../client/build')));
-app.use(auth(config));
 
-// // All other GET requests not handled before will return our React app
+app.use(auth(config));
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../../client/build', 'index.html'));
-  console.log(path.resolve(__dirname, '../../client/build', 'index.html'))
-  console.log(req.oidc.isAuthenticated());
+  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+  console.log(req.oidc.user);
 });
 
-// app.get('/:error', (req, res) => {
-//   res.send(404, 'Not found')
-// });
+app.use(express.static(path.join(__dirname, "../../client", "build")));
 
-
-//test index html route in server dir
-
-// app.get('/', (req, res) => {
-//   res.sendFile('index.html', { root: '../' })
-//   console.log(req.oidc.user);
-// });
 
 
 // import home from "./routes/home.js";
