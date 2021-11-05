@@ -6,8 +6,6 @@ import Database from "./classes/Database.js";
 import path from "path";
 const __dirname = path.resolve();
 
-//dev
-
 dotenv.config({ path: "../config/.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
