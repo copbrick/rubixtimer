@@ -3,43 +3,45 @@ import express from "express";
 import signale from "signale";
 import signaleConfig from "../config/signaleConfig.js";
 import Database from "./classes/Database.js";
+import path from "path";
+const __dirname = path.resolve();
 
 dotenv.config({ path: "../config/.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
+const authRequired = process.env.AUTH_REQUIRED === "false" ? true : false;
+const auth0Logout = process.env.AUTH_LOGOUT === "true" ? true : false;
+const secret = process.env.SECRET;
+const baseURL = process.env.BASE_URL;
+const clientID = process.env.CLIENT_ID;
+const issuerBaseURL = process.env.ISSUER_BASE_URL;
 
 const app = express();
-
 const database = new Database(dbConn);
 
-async function main() {
-  // await database.createUser({
-  //   email: "anthonyjbenjamin@gmail.com",
-  //   username: "copbrick",
-  //   password: "ballz",
-  // });
+//import auth from express open id connect, and configure it
+import { auth } from "express-openid-connect" 
+const config = {
+  authRequired: `${authRequired}`,
+  auth0Logout: `${auth0Logout}`,
+  secret: `${secret}`,
+  baseURL: `${baseURL}`,
+  clientID: `${clientID}`,
+  issuerBaseURL: `${issuerBaseURL}`
+};
 
-  // await database.findUser("anthonyjbenjamin@gmail.com");
+//auth router attaches /login, /logout, and /callback routes to the baseURL (auth middleware)
+//have app use auth along with its configration and built in routes
+app.use(auth(config));
 
-  // await database.removeUser("anthonyjbenjamin@gmail.com");
-
-  // await database.updateStatistics("anthonyjbenjamin@gmail.com", {
-  //   average: "1900",
-  //   averageof5: "2000",
-  // });
-
-  // await database.updateSettings("anthonyjbenjamin@gmail.com", {
-  //   newUIMode: "dark",
-  // });
-
-  await database.clearStatistics("anthonyjbenjamin@gmail.com");
-}
-
-main().then(() => signale.success("Finished Main Function!"));
-
+//import "/" route (home.js) and use with app which is using auth already
 import home from "./routes/home.js";
 app.use("/", home);
 
+//serve static react build after auth and using routes to stop react build overriding auth
+app.use(express.static(path.join(__dirname, "../../client", "build")));
+
+//start server
 app.listen(port, () => {
   signale.success(`Server is running on http://localhost:${port}`);
 });
