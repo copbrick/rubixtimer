@@ -42,6 +42,11 @@ app.use("/", home);
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
 
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../../client", "build", "index.html"));
+});
+
 //start server
 app.listen(port, () => {
   signale.success(`Server is running on http://localhost:${port}`);
