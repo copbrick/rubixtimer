@@ -4,7 +4,7 @@ import "./App.css";
 import LoginBtn from "./components/LoginBtn";
 import LogoutBtn from "./components/LogoutBtn";
 
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Switch } from "react-router-dom";
 
 function App() {
   return (
