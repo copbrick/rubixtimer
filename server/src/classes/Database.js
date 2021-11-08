@@ -37,9 +37,9 @@ export default class Database {
       console.log(
         `${client.user.username} is online on ${client.guilds.cache.size} servers!`
       );
-      client.user.setActivity("Cubing!", { type: "Playing" });
+      client.user.setStatus("online");
+      client.user.setActivity(`RubixTimer users!`, { type: "WATCHING" })
     });
-
     client.on("message", async (message) => {
       if (message.author.bot) return;
       if (message.content.startsWith("!")) {
@@ -79,8 +79,7 @@ export default class Database {
             .setColor(0x00ff00)
             .setTimestamp()
             .setFooter("RubixTimer", image)
-            //add field for user count
-            .addFields({name: "User Count", value: userCount,});
+            .addFields({ name: "User Count", value: userCount });
           users.forEach((user) => {
             embed.addFields({
               name: "Email",
