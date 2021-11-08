@@ -32,7 +32,7 @@ export default class Database {
       });
   }
 
-  async startWebhook() {
+  async startBot() {
     client.on("ready", async () => {
       console.log(
         `${client.user.username} is online on ${client.guilds.cache.size} servers!`
@@ -52,6 +52,42 @@ export default class Database {
               m.createdTimestamp - message.createdTimestamp
             }ms. API Latency is ${Math.round(client.ws.ping)}ms`
           );
+        } else if (command == "usercount") {
+          //count users in database
+          const userCount = await User.countDocuments({});
+          const embed = new MessageEmbed()
+            .setAuthor("RubixTimer DB Statistics")
+            .setTitle("User Count")
+            .setURL("https://rubixtimer.xyz")
+            .setThumbnail(image)
+            .setDescription(`There are ${userCount} users in the database!`)
+            .setColor(0x00ff00)
+            .setTimestamp()
+            .setFooter("RubixTimer", image);
+          console.log(embed);
+          message.channel.send({ embed }).catch(signale.error);
+        } else if (command == "listusers") {
+          //list users in database
+          const users = await User.find({});
+          const userCount = await User.countDocuments({});
+          const embed = new MessageEmbed()
+            .setAuthor("RubixTimer DB Statistics")
+            .setTitle("User List")
+            .setURL("https://rubixtimer.xyz")
+            .setThumbnail(image)
+            .setDescription(`List of users in the database!`)
+            .setColor(0x00ff00)
+            .setTimestamp()
+            .setFooter("RubixTimer", image)
+            //add field for user count
+            .addFields({name: "User Count", value: userCount,});
+          users.forEach((user) => {
+            embed.addFields({
+              name: "Email",
+              value: user.email,
+            });
+          });
+          message.channel.send({ embed }).catch(signale.error);
         }
       }
     });

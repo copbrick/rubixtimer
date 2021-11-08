@@ -19,8 +19,10 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 
 const app = express();
 const database = new Database(dbConn);
+//watches for changes in the database, sends discord webhook
 database.watchEvents();
-// database.startWebhook();
+//starts discord BOT (not webhook, used for admin commands)
+database.startBot();
 
 //import auth from express open id connect, and configure it
 import { auth } from "express-openid-connect";
