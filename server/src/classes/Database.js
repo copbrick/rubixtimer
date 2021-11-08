@@ -19,6 +19,14 @@ export default class Database {
       });
   }
 
+  async watchEvents() {
+    //watch events in mongo and log it
+    const changeStream = User.watch({ fullDocument: "updateLookup" });
+    changeStream.on("change", (next) => {
+      console.log(next);
+    });
+  }
+
   async findUser(email) {
     const user = await User.findOne({ email: email }).exec();
 

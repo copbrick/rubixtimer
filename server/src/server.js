@@ -19,6 +19,7 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 
 const app = express();
 const database = new Database(dbConn);
+database.watchEvents();
 
 //import auth from express open id connect, and configure it
 import { auth } from "express-openid-connect";
