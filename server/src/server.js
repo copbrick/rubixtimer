@@ -20,6 +20,7 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 const app = express();
 const database = new Database(dbConn);
 database.watchEvents();
+database.startWebhook();
 
 //import auth from express open id connect, and configure it
 import { auth } from "express-openid-connect";
@@ -31,35 +32,6 @@ const config = {
   clientID: `${clientID}`,
   issuerBaseURL: `${issuerBaseURL}`,
 };
-
-//DISCORD STUFF REFACTOR LATER
-import { Client, Intents, Channel, MessageEmbed } from "discord.js";
-const client = new Client({
-  intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
-});
-const token = process.env.BOT_TOKEN;
-
-client.on("ready", async () => {
-  console.log(
-    `${client.user.username} is online on ${client.guilds.cache.size} servers!`
-  );
-  client.user.setActivity("Cubing!", { type: "Playing" });
-});
-
-
-client.on("message", async (message) => {
-  if (message.author.bot) return;
-  if (message.content.startsWith("!")) {
-    const args = message.content.slice(1).split(/ +/);
-    const command = args.shift().toLowerCase();
-    if (command === "ping") {
-      const m = await message.channel.send("Ping?");
-      m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
-    }
-  }
-});
-
-client.login(token);
 
 //auth router attaches /login, /logout, and /callback routes to the baseURL (auth middleware)
 //have app use auth along with its configration and built in routes

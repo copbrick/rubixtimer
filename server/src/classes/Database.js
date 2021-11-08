@@ -1,9 +1,17 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import signale from "signale";
+import dotenv from "dotenv";
+dotenv.config({ path: "../../config/.env" });
+
 const { Signale } = signale;
 const interactive = new Signale({ interactive: true, scope: "interactive" });
 
+import { Client, Intents, Channel, MessageEmbed } from "discord.js";
+const client = new Client({
+  intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
+});
+const token = process.env.BOT_TOKEN.toString();
 export default class Database {
   constructor(mongoURL) {
     mongoose
@@ -19,11 +27,35 @@ export default class Database {
       });
   }
 
+  async startWebhook() {
+    client.on("ready", async () => {
+      console.log(
+        `${client.user.username} is online on ${client.guilds.cache.size} servers!`
+      );
+      client.user.setActivity("Cubing!", { type: "Playing" });
+    });
+    
+    
+    client.on("message", async (message) => {
+      if (message.author.bot) return;
+      if (message.content.startsWith("!")) {
+        const args = message.content.slice(1).split(/ +/);
+        const command = args.shift().toLowerCase();
+        if (command === "ping") {
+          const m = await message.channel.send("Ping?");
+          m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
+        }
+      }
+    });
+    
+    client.login(token);
+  }
+
   async watchEvents() {
-    //watch events in mongo and log it
     const changeStream = User.watch({ fullDocument: "updateLookup" });
     changeStream.on("change", (next) => {
       console.log(next);
+
     });
   }
 
