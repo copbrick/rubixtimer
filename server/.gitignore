@@ -1,2 +1,4 @@
 node_modules/
 .env
+discordToken.js
+discordWebhook.js

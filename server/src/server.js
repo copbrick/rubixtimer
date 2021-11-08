@@ -3,6 +3,7 @@ import express from "express";
 import signale from "signale";
 import signaleConfig from "../config/signaleConfig.js";
 import Database from "./classes/Database.js";
+
 import path from "path";
 const __dirname = path.resolve();
 
@@ -18,16 +19,20 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 
 const app = express();
 const database = new Database(dbConn);
+//watches for changes in the database, sends discord webhook
+database.watchEvents();
+//starts discord BOT (not webhook, used for admin commands)
+database.startBot();
 
 //import auth from express open id connect, and configure it
-import { auth } from "express-openid-connect" 
+import { auth } from "express-openid-connect";
 const config = {
   authRequired: `${authRequired}`,
   auth0Logout: `${auth0Logout}`,
   secret: `${secret}`,
   baseURL: `${baseURL}`,
   clientID: `${clientID}`,
-  issuerBaseURL: `${issuerBaseURL}`
+  issuerBaseURL: `${issuerBaseURL}`,
 };
 
 //auth router attaches /login, /logout, and /callback routes to the baseURL (auth middleware)
@@ -40,6 +45,11 @@ app.use("/", home);
 
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
+
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../../client", "build", "index.html"));
+});
 
 //start server
 app.listen(port, () => {

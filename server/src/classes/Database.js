@@ -1,8 +1,21 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import signale from "signale";
+import discordToken from "../../config/discordToken.js";
+const token = discordToken.token;
+import discordWebhook from "../../config/discordWebhook.js";
+const webhook = discordWebhook.webhook;
+const image = discordWebhook.image;
+import XMLHttpRequest from "xhr2";
+const xhr = new XMLHttpRequest();
+
 const { Signale } = signale;
 const interactive = new Signale({ interactive: true, scope: "interactive" });
+
+import { Client, Intents, Channel, MessageEmbed } from "discord.js";
+const client = new Client({
+  intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
+});
 
 export default class Database {
   constructor(mongoURL) {
@@ -17,6 +30,93 @@ export default class Database {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  async startBot() {
+    client.on("ready", async () => {
+      console.log(
+        `${client.user.username} is online on ${client.guilds.cache.size} servers!`
+      );
+      client.user.setActivity("Cubing!", { type: "Playing" });
+    });
+
+    client.on("message", async (message) => {
+      if (message.author.bot) return;
+      if (message.content.startsWith("!")) {
+        const args = message.content.slice(1).split(/ +/);
+        const command = args.shift().toLowerCase();
+        if (command === "ping") {
+          const m = await message.channel.send("Ping?");
+          m.edit(
+            `Pong! Latency is ${
+              m.createdTimestamp - message.createdTimestamp
+            }ms. API Latency is ${Math.round(client.ws.ping)}ms`
+          );
+        } else if (command == "usercount") {
+          //count users in database
+          const userCount = await User.countDocuments({});
+          const embed = new MessageEmbed()
+            .setAuthor("RubixTimer DB Statistics")
+            .setTitle("User Count")
+            .setURL("https://rubixtimer.xyz")
+            .setThumbnail(image)
+            .setDescription(`There are ${userCount} users in the database!`)
+            .setColor(0x00ff00)
+            .setTimestamp()
+            .setFooter("RubixTimer", image);
+          console.log(embed);
+          message.channel.send({ embed }).catch(signale.error);
+        } else if (command == "listusers") {
+          //list users in database
+          const users = await User.find({});
+          const userCount = await User.countDocuments({});
+          const embed = new MessageEmbed()
+            .setAuthor("RubixTimer DB Statistics")
+            .setTitle("User List")
+            .setURL("https://rubixtimer.xyz")
+            .setThumbnail(image)
+            .setDescription(`List of users in the database!`)
+            .setColor(0x00ff00)
+            .setTimestamp()
+            .setFooter("RubixTimer", image)
+            //add field for user count
+            .addFields({name: "User Count", value: userCount,});
+          users.forEach((user) => {
+            embed.addFields({
+              name: "Email",
+              value: user.email,
+            });
+          });
+          message.channel.send({ embed }).catch(signale.error);
+        }
+      }
+    });
+    client.login(token);
+  }
+
+  async watchEvents() {
+    const changeStream = User.watch({ fullDocument: "updateLookup" });
+    changeStream.on("change", (next) => {
+      //when new user created send discord webhook
+      xhr.open("POST", `${webhook}`);
+      xhr.setRequestHeader("Content-type", "application/json");
+      const embed = new MessageEmbed()
+        .setAuthor("RubixTimer Events")
+        .setTitle("New User Created")
+        .setURL("https://rubixtimer.xyz")
+        .setThumbnail(image)
+        .setDescription(`${next.fullDocument.email} has been created!`)
+        .setColor(0x00ff00)
+        .addFields({ name: "email", value: next.fullDocument.email })
+        .setTimestamp()
+        .setFooter("RubixTimer", image);
+      const params = {
+        username: "RubixTimer Events",
+        image: image,
+        embeds: [embed],
+      };
+      xhr.send(JSON.stringify(params));
+    });
   }
 
   async findUser(email) {
