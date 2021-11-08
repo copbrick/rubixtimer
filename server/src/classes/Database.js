@@ -5,6 +5,7 @@ import discordToken from "../../config/discordToken.js";
 const token = discordToken.token;
 import discordWebhook from "../../config/discordWebhook.js";
 const webhook = discordWebhook.webhook;
+const image = discordWebhook.image;
 import XMLHttpRequest from "xhr2";
 const xhr = new XMLHttpRequest();
 
@@ -64,15 +65,18 @@ export default class Database {
       xhr.open("POST", `${webhook}`);
       xhr.setRequestHeader("Content-type", "application/json");
       const embed = new MessageEmbed()
-        .setAuthor("rubixtimer events")
+        .setAuthor("RubixTimer Events")
         .setTitle("New User Created")
+        .setURL("https://rubixtimer.xyz")
+        .setThumbnail(image)
         .setDescription(`${next.fullDocument.email} has been created!`)
         .setColor(0x00ff00)
         .addFields({ name: "email", value: next.fullDocument.email })
         .setTimestamp()
-        .setFooter("RubixTimer");
+        .setFooter("RubixTimer", image);
       const params = {
         username: "RubixTimer Events",
+        image: image,
         embeds: [embed],
       };
       xhr.send(JSON.stringify(params));
