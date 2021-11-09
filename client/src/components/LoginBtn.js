@@ -4,9 +4,7 @@ import Button from "@mui/material/Button";
 function LoginBtn() {
   return (
     <div>
-      <a href="/login">
-        <Button variant="contained">Sign Up/Login</Button>
-      </a>
+        <Button href = "/login" variant="contained">Sign Up/Login</Button>
     </div>
   );
 }

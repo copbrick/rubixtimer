@@ -10,8 +10,6 @@ const __dirname = path.resolve();
 dotenv.config({ path: "../config/.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
-const authRequired = process.env.AUTH_REQUIRED === "false" ? true : false;
-const auth0Logout = process.env.AUTH_LOGOUT === "true" ? true : false;
 const secret = process.env.SECRET;
 const baseURL = process.env.BASE_URL;
 const clientID = process.env.CLIENT_ID;
@@ -27,8 +25,8 @@ database.startBot();
 //import auth from express open id connect, and configure it
 import { auth } from "express-openid-connect";
 const config = {
-  authRequired: `${authRequired}`,
-  auth0Logout: `${auth0Logout}`,
+  authRequired: false,
+  auth0Logout: true,
   secret: `${secret}`,
   baseURL: `${baseURL}`,
   clientID: `${clientID}`,
@@ -47,9 +45,9 @@ app.use("/", home);
 app.use(express.static(path.join(__dirname, "../../client", "build")));
 
 // All other GET requests not handled before will return our React app
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../../client", "build", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../../client", "build", "index.html"));
+// });
 
 //start server
 app.listen(port, () => {
