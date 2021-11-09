@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import signale from "signale";
+import axios from "axios";
 import discordToken from "../../config/discordToken.js";
-const token = discordToken.token;
 import discordWebhook from "../../config/discordWebhook.js";
+const token = discordToken.token;
 const webhook = discordWebhook.webhook;
 const image = discordWebhook.image;
-import XMLHttpRequest from "xhr2";
-const xhr = new XMLHttpRequest();
 
 const { Signale } = signale;
 const interactive = new Signale({ interactive: true, scope: "interactive" });
@@ -38,7 +37,7 @@ export default class Database {
         `${client.user.username} is online on ${client.guilds.cache.size} servers!`
       );
       client.user.setStatus("online");
-      client.user.setActivity(`RubixTimer users!`, { type: "WATCHING" })
+      client.user.setActivity(`RubixTimer users!`, { type: "WATCHING" });
     });
     client.on("message", async (message) => {
       if (message.author.bot) return;
@@ -96,9 +95,7 @@ export default class Database {
   async watchEvents() {
     const changeStream = User.watch({ fullDocument: "updateLookup" });
     changeStream.on("change", (next) => {
-      //when new user created send discord webhook
-      xhr.open("POST", `${webhook}`);
-      xhr.setRequestHeader("Content-type", "application/json");
+      //when new user created send discord webhook contained rich embed
       const embed = new MessageEmbed()
         .setAuthor("RubixTimer Events")
         .setTitle("New User Created")
@@ -109,12 +106,16 @@ export default class Database {
         .addFields({ name: "email", value: next.fullDocument.email })
         .setTimestamp()
         .setFooter("RubixTimer", image);
-      const params = {
-        username: "RubixTimer Events",
-        image: image,
-        embeds: [embed],
+      const options = {
+        method: "post",
+        url: `${webhook}`,
+        data: {
+          username: "RubixTimer Events",
+          image: image,
+          embeds: [embed],
+        },
       };
-      xhr.send(JSON.stringify(params));
+      axios(options);
     });
   }
 
