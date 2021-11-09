@@ -2,11 +2,10 @@ import mongoose from "mongoose";
 import User from "../models/User.js";
 import signale from "signale";
 import axios from "axios";
-import discordToken from "../../config/discordToken.js";
-import discordWebhook from "../../config/discordWebhook.js";
-const token = discordToken.token;
-const webhook = discordWebhook.webhook;
-const image = discordWebhook.image;
+import discordConfig from "../../config/discordConfig.js";
+const token = discordConfig.token;
+const webhook = discordConfig.webhook;
+const image = discordConfig.image;
 
 const { Signale } = signale;
 const interactive = new Signale({ interactive: true, scope: "interactive" });
