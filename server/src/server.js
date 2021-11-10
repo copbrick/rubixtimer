@@ -18,14 +18,6 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 const app = express();
 const database = new Database(dbConn);
 
-// const main = async () => {
-//   signale.info("Running Main Function...");
-//   await database.startBot();
-//   await database.watchEvents();
-// };
-
-// main();
-
 //import auth from express open id connect, and configure it
 import { auth } from "express-openid-connect";
 const config = {
