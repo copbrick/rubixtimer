@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import signale from "signale";
-import discordToken from "../../config/discordToken.js";
-const token = discordToken.token;
-import discordWebhook from "../../config/discordWebhook.js";
-const webhook = discordWebhook.webhook;
-const image = discordWebhook.image;
-import XMLHttpRequest from "xhr2";
-const xhr = new XMLHttpRequest();
+import axios from "axios";
+import discordConfig from "../../config/discordConfig.js";
+const token = discordConfig.token;
+const webhook = discordConfig.webhook;
+const image = discordConfig.image;
 
 const { Signale } = signale;
-const interactive = new Signale({ interactive: true, scope: "interactive" });
+
+//not being used right now
+// const interactive = new Signale({ interactive: true, scope: "interactive" });
 
 import { Client, Intents, Channel, MessageEmbed } from "discord.js";
 const client = new Client({
@@ -26,25 +26,32 @@ export default class Database {
       })
       .then(() => {
         signale.success("Database Connected!");
+        //two functions to watch for database events and start bot (object (which is called "database") is in server.js and is passed to this constructor)
+        //watches for changes in the database, sends discord webhook
+        this.watchEvents();
+        //starts discord BOT (not webhook, used for admin commands)
+        this.startBot();
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  //function that gets called in constructor to start discord bot along with the command handler
   async startBot() {
     client.on("ready", async () => {
-      console.log(
-        `${client.user.username} is online on ${client.guilds.cache.size} servers!`
+      signale.success(
+        `${client.user.username} bot is online on ${client.guilds.cache.size} servers!`
       );
       client.user.setStatus("online");
-      client.user.setActivity(`RubixTimer users!`, { type: "WATCHING" })
+      client.user.setActivity(`RubixTimer users!`, { type: "WATCHING" });
     });
-    client.on("message", async (message) => {
+    client.on("messageCreate", async (message) => {
       if (message.author.bot) return;
       if (message.content.startsWith("!")) {
         const args = message.content.slice(1).split(/ +/);
         const command = args.shift().toLowerCase();
+        const channel = client.channels.cache.get(message.channel.id);
         if (command === "ping") {
           const m = await message.channel.send("Ping?");
           m.edit(
@@ -54,68 +61,85 @@ export default class Database {
           );
         } else if (command == "usercount") {
           //count users in database
-          const userCount = await User.countDocuments({});
-          const embed = new MessageEmbed()
-            .setAuthor("RubixTimer DB Statistics")
-            .setTitle("User Count")
-            .setURL("https://rubixtimer.xyz")
-            .setThumbnail(image)
-            .setDescription(`There are ${userCount} users in the database!`)
-            .setColor(0x00ff00)
-            .setTimestamp()
-            .setFooter("RubixTimer", image);
-          console.log(embed);
-          message.channel.send({ embed }).catch(signale.error);
+          try {
+            const userCount = await User.countDocuments({});
+            const embed = new MessageEmbed()
+              .setAuthor("RubixTimer DB Statistics")
+              .setTitle("User Count")
+              .setURL("https://rubixtimer.xyz")
+              .setThumbnail(image)
+              .setDescription(`There are ${userCount} users in the database!`)
+              .setColor(0x00ff00)
+              .setTimestamp()
+              .setFooter("RubixTimer", image);
+            message.channel.send({ embeds: [embed] });
+          } catch {
+            signale.error("User Count Error" + err);
+            message.channel.send("User Count Error");
+          }
         } else if (command == "listusers") {
-          //list users in database
-          const users = await User.find({});
-          const userCount = await User.countDocuments({});
-          const embed = new MessageEmbed()
-            .setAuthor("RubixTimer DB Statistics")
-            .setTitle("User List")
-            .setURL("https://rubixtimer.xyz")
-            .setThumbnail(image)
-            .setDescription(`List of users in the database!`)
-            .setColor(0x00ff00)
-            .setTimestamp()
-            .setFooter("RubixTimer", image)
-            .addFields({ name: "User Count", value: userCount });
-          users.forEach((user) => {
-            embed.addFields({
-              name: "Email",
-              value: user.email,
+          try {
+            //list users in database
+            const users = await User.find({});
+            const userCount = await User.countDocuments({});
+            const embed = new MessageEmbed()
+              .setAuthor("RubixTimer DB Statistics")
+              .setTitle("User List")
+              .setURL("https://rubixtimer.xyz")
+              .setThumbnail(image)
+              .setDescription("List of users in the database!")
+              .setColor(0x00ff00)
+              .setTimestamp()
+              .setFooter("RubixTimer", image)
+              .addFields({ name: "User Count", value: `${userCount}` });
+            users.forEach((user) => {
+              embed.addFields({
+                name: "Email",
+                value: user.email,
+              });
             });
-          });
-          message.channel.send({ embed }).catch(signale.error);
+            message.channel.send({ embeds: [embed] });
+          } catch (err) {
+            signale.error("User List Error" + err);
+            message.channel.send("User List Error");
+          }
         }
       }
     });
     client.login(token);
   }
 
+  //function that gets called in constructor to watch for database events such as new user creations and sends discord webhook
   async watchEvents() {
-    const changeStream = User.watch({ fullDocument: "updateLookup" });
-    changeStream.on("change", (next) => {
-      //when new user created send discord webhook
-      xhr.open("POST", `${webhook}`);
-      xhr.setRequestHeader("Content-type", "application/json");
-      const embed = new MessageEmbed()
-        .setAuthor("RubixTimer Events")
-        .setTitle("New User Created")
-        .setURL("https://rubixtimer.xyz")
-        .setThumbnail(image)
-        .setDescription(`${next.fullDocument.email} has been created!`)
-        .setColor(0x00ff00)
-        .addFields({ name: "email", value: next.fullDocument.email })
-        .setTimestamp()
-        .setFooter("RubixTimer", image);
-      const params = {
-        username: "RubixTimer Events",
-        image: image,
-        embeds: [embed],
-      };
-      xhr.send(JSON.stringify(params));
-    });
+    try {
+      signale.start("Watching for database events...");
+      const changeStream = User.watch({ fullDocument: "updateLookup" });
+      changeStream.on("change", (next) => {
+        //when new user created send discord webhook contained rich embed
+        const embed = new MessageEmbed()
+          .setAuthor("RubixTimer Events")
+          .setTitle("New User Created")
+          .setURL("https://rubixtimer.xyz")
+          .setThumbnail(image)
+          .setDescription(`${next.fullDocument.email} has been created!`)
+          .setColor(0x00ff00)
+          .addFields({ name: "email", value: next.fullDocument.email })
+          .setTimestamp()
+          .setFooter("RubixTimer", image);
+        const options = {
+          method: "post",
+          url: `${webhook}`,
+          data: {
+            username: "RubixTimer Events",
+            image: image,
+            embeds: [embed],
+          },
+        };
+        axios(options);
+      });
+    } catch {
+      signale.error("Watch Events Error" + err);
+    }
   }
 
   async findUser(email) {
