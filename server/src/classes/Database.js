@@ -88,7 +88,11 @@ export default class Database {
         }
       }
     });
-    client.login(token);
+    try {
+      client.login(token);
+    } catch (err) {
+      signale.error(err);
+    }
   }
 
   async watchEvents() {
