@@ -38,12 +38,15 @@ import home from "./routes/home.js";
 app.use("/", home);
 
 //get the user info from the database
-app.get("/api/user", (req, res) => {
-  database.findUser(req.oidc.user.email).then((user) => {
-    res.send(JSON.stringify(user.email));
-  });
+app.get("/api/user", async (req, res) => {
+  try {
+    await database.findUser(req.oidc.user.email).then((user) => {
+      res.send(JSON.stringify({user}));
+    });
+  } catch (err) {
+    signale.error("User Private Endpoint Error: " + err);
+  }
 });
-
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
 
