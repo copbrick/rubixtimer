@@ -37,6 +37,13 @@ app.use(auth(config));
 import home from "./routes/home.js";
 app.use("/", home);
 
+//get the user info from the database
+app.get("/api/user", (req, res) => {
+  database.findUser(req.oidc.user.email).then((user) => {
+    res.send(JSON.stringify(user.email));
+  });
+});
+
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
 
