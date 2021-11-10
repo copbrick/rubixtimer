@@ -25,9 +25,9 @@ export default class Database {
       .then(() => {
         signale.success("Database Connected!");
         //watches for changes in the database, sends discord webhook
-        this.startBot();
-        //starts discord BOT (not webhook, used for admin commands)
         this.watchEvents();
+        //starts discord BOT (not webhook, used for admin commands)
+        this.startBot();
       })
       .catch((err) => {
         console.log(err);
@@ -36,8 +36,8 @@ export default class Database {
 
   async startBot() {
     client.on("ready", async () => {
-      console.log(
-        `${client.user.username} is online on ${client.guilds.cache.size} servers!`
+      signale.success(
+        `${client.user.username} bot is online on ${client.guilds.cache.size} servers!`
       );
       client.user.setStatus("online");
       client.user.setActivity(`RubixTimer users!`, { type: "WATCHING" });
@@ -57,17 +57,22 @@ export default class Database {
           );
         } else if (command == "usercount") {
           //count users in database
-          const userCount = await User.countDocuments({});
-          const embed = new MessageEmbed()
-            .setAuthor("RubixTimer DB Statistics")
-            .setTitle("User Count")
-            .setURL("https://rubixtimer.xyz")
-            .setThumbnail(image)
-            .setDescription(`There are ${userCount} users in the database!`)
-            .setColor(0x00ff00)
-            .setTimestamp()
-            .setFooter("RubixTimer", image);
-          channel.send({ embeds: [embed] }).catch(signale.error);
+          try {
+            const userCount = await User.countDocuments({});
+            const embed = new MessageEmbed()
+              .setAuthor("RubixTimer DB Statistics")
+              .setTitle("User Count")
+              .setURL("https://rubixtimer.xyz")
+              .setThumbnail(image)
+              .setDescription(`There are ${userCount} users in the database!`)
+              .setColor(0x00ff00)
+              .setTimestamp()
+              .setFooter("RubixTimer", image);
+            message.channel.send({ embeds: [embed] });
+          } catch {
+            signale.error("User Count Error" + err);
+            message.channel.send("User Count Error");
+          }
         } else if (command == "listusers") {
           try {
             //list users in database
@@ -78,21 +83,21 @@ export default class Database {
               .setTitle("User List")
               .setURL("https://rubixtimer.xyz")
               .setThumbnail(image)
-              .setDescription(`List of users in the database!`)
+              .setDescription("List of users in the database!")
               .setColor(0x00ff00)
               .setTimestamp()
               .setFooter("RubixTimer", image)
-              .addFields({ name: "User Count", value: userCount });
-            console.log(embed);
+              .addFields({ name: "User Count", value: `${userCount}` });
             users.forEach((user) => {
               embed.addFields({
                 name: "Email",
                 value: user.email,
               });
             });
-            channel.send({ embeds: [embed] });
+            message.channel.send({ embeds: [embed] });
           } catch (err) {
-            signale.error(err);
+            signale.error("User List Error" + err);
+            message.channel.send("User List Error");
           }
         }
       }
@@ -102,6 +107,7 @@ export default class Database {
 
   async watchEvents() {
     try {
+      signale.start("Watching for database events...");
       const changeStream = User.watch({ fullDocument: "updateLookup" });
       changeStream.on("change", (next) => {
         //when new user created send discord webhook contained rich embed
