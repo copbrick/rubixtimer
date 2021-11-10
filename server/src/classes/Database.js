@@ -7,9 +7,8 @@ const token = discordConfig.token;
 const webhook = discordConfig.webhook;
 const image = discordConfig.image;
 
-const { Signale } = signale;
-
 //not being used right now
+// const { Signale } = signale;
 // const interactive = new Signale({ interactive: true, scope: "interactive" });
 
 import { Client, Intents, Channel, MessageEmbed } from "discord.js";
