@@ -8,7 +8,9 @@ const webhook = discordConfig.webhook;
 const image = discordConfig.image;
 
 const { Signale } = signale;
-const interactive = new Signale({ interactive: true, scope: "interactive" });
+
+//not being used right now
+// const interactive = new Signale({ interactive: true, scope: "interactive" });
 
 import { Client, Intents, Channel, MessageEmbed } from "discord.js";
 const client = new Client({
@@ -24,6 +26,7 @@ export default class Database {
       })
       .then(() => {
         signale.success("Database Connected!");
+        //two functions to watch for database events and start bot (object (which is called "database") is in server.js and is passed to this constructor)
         //watches for changes in the database, sends discord webhook
         this.watchEvents();
         //starts discord BOT (not webhook, used for admin commands)
@@ -34,6 +37,7 @@ export default class Database {
       });
   }
 
+  //function that gets called in constructor to start discord bot along with the command handler
   async startBot() {
     client.on("ready", async () => {
       signale.success(
@@ -105,6 +109,7 @@ export default class Database {
     client.login(token);
   }
 
+  //function that gets called in constructor to watch for database events such as new user creations and sends discord webhook
   async watchEvents() {
     try {
       signale.start("Watching for database events...");
