@@ -24,6 +24,10 @@ export default class Database {
       })
       .then(() => {
         signale.success("Database Connected!");
+        //watches for changes in the database, sends discord webhook
+        this.startBot();
+        //starts discord BOT (not webhook, used for admin commands)
+        this.watchEvents();
       })
       .catch((err) => {
         console.log(err);
@@ -38,7 +42,7 @@ export default class Database {
       client.user.setStatus("online");
       client.user.setActivity(`RubixTimer users!`, { type: "WATCHING" });
     });
-    client.on("message", async (message) => {
+    client.on("messageCreate", async (message) => {
       if (message.author.bot) return;
       if (message.content.startsWith("!")) {
         const args = message.content.slice(1).split(/ +/);
