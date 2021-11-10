@@ -47,6 +47,7 @@ export default class Database {
       if (message.content.startsWith("!")) {
         const args = message.content.slice(1).split(/ +/);
         const command = args.shift().toLowerCase();
+        const channel = client.channels.cache.get(message.channel.id);
         if (command === "ping") {
           const m = await message.channel.send("Ping?");
           m.edit(
@@ -66,64 +67,68 @@ export default class Database {
             .setColor(0x00ff00)
             .setTimestamp()
             .setFooter("RubixTimer", image);
-          console.log(embed);
-          message.channel.send({ embed }).catch(signale.error);
+          channel.send({ embeds: [embed] }).catch(signale.error);
         } else if (command == "listusers") {
-          //list users in database
-          const users = await User.find({});
-          const userCount = await User.countDocuments({});
-          const embed = new MessageEmbed()
-            .setAuthor("RubixTimer DB Statistics")
-            .setTitle("User List")
-            .setURL("https://rubixtimer.xyz")
-            .setThumbnail(image)
-            .setDescription(`List of users in the database!`)
-            .setColor(0x00ff00)
-            .setTimestamp()
-            .setFooter("RubixTimer", image)
-            .addFields({ name: "User Count", value: userCount });
-          users.forEach((user) => {
-            embed.addFields({
-              name: "Email",
-              value: user.email,
+          try {
+            //list users in database
+            const users = await User.find({});
+            const userCount = await User.countDocuments({});
+            const embed = new MessageEmbed()
+              .setAuthor("RubixTimer DB Statistics")
+              .setTitle("User List")
+              .setURL("https://rubixtimer.xyz")
+              .setThumbnail(image)
+              .setDescription(`List of users in the database!`)
+              .setColor(0x00ff00)
+              .setTimestamp()
+              .setFooter("RubixTimer", image)
+              .addFields({ name: "User Count", value: userCount });
+            console.log(embed);
+            users.forEach((user) => {
+              embed.addFields({
+                name: "Email",
+                value: user.email,
+              });
             });
-          });
-          message.channel.send({ embed }).catch(signale.error);
+            channel.send({ embeds: [embed] });
+          } catch (err) {
+            signale.error(err);
+          }
         }
       }
     });
-    try {
-      client.login(token);
-    } catch (err) {
-      signale.error(err);
-    }
+    client.login(token);
   }
 
   async watchEvents() {
-    const changeStream = User.watch({ fullDocument: "updateLookup" });
-    changeStream.on("change", (next) => {
-      //when new user created send discord webhook contained rich embed
-      const embed = new MessageEmbed()
-        .setAuthor("RubixTimer Events")
-        .setTitle("New User Created")
-        .setURL("https://rubixtimer.xyz")
-        .setThumbnail(image)
-        .setDescription(`${next.fullDocument.email} has been created!`)
-        .setColor(0x00ff00)
-        .addFields({ name: "email", value: next.fullDocument.email })
-        .setTimestamp()
-        .setFooter("RubixTimer", image);
-      const options = {
-        method: "post",
-        url: `${webhook}`,
-        data: {
-          username: "RubixTimer Events",
-          image: image,
-          embeds: [embed],
-        },
-      };
-      axios(options);
-    });
+    try {
+      const changeStream = User.watch({ fullDocument: "updateLookup" });
+      changeStream.on("change", (next) => {
+        //when new user created send discord webhook contained rich embed
+        const embed = new MessageEmbed()
+          .setAuthor("RubixTimer Events")
+          .setTitle("New User Created")
+          .setURL("https://rubixtimer.xyz")
+          .setThumbnail(image)
+          .setDescription(`${next.fullDocument.email} has been created!`)
+          .setColor(0x00ff00)
+          .addFields({ name: "email", value: next.fullDocument.email })
+          .setTimestamp()
+          .setFooter("RubixTimer", image);
+        const options = {
+          method: "post",
+          url: `${webhook}`,
+          data: {
+            username: "RubixTimer Events",
+            image: image,
+            embeds: [embed],
+          },
+        };
+        axios(options);
+      });
+    } catch {
+      signale.error("Watch Events Error" + err);
+    }
   }
 
   async findUser(email) {
