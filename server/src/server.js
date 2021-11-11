@@ -41,7 +41,7 @@ app.use("/", home);
 app.get("/api/user", async (req, res) => {
   try {
     await database.findUser(req.oidc.user.email).then((user) => {
-      res.json({user});
+      res.json({ user });
     });
   } catch (err) {
     signale.error("User Private Endpoint Error: " + err);
@@ -50,9 +50,20 @@ app.get("/api/user", async (req, res) => {
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
 
-// All other GET requests not handled before will return our React app
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "../../client", "build", "index.html"));
+// const main = async () => {
+//   try {
+//     const user = await database.updateStatistics("a1@copbrick.club", {
+//       average: 1,
+//       averageof5: 2,
+//     });
+//     signale.info(user);
+//   } catch (err) {
+//     signale.error("Database Error: " + err);
+//   }
+// };
+
+// main().then(() => {
+//   signale.info("Main Function Started...");
 // });
 
 //start server

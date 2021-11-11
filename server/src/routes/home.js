@@ -9,7 +9,12 @@ import signaleConfig from "../../config/signaleConfig.js";
 //get access to user object by doing req.oidc.user
 router.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../../client/build", "index.html"));
-  signale.note(req.oidc.user);
+
+  if (req.oidc.isAuthenticated()) {
+    signale.success(`User ${req.oidc.user.email} is logged in`);
+  } else {
+    signale.warn("User is not logged in");
+  }
 });
 
 export default router;

@@ -142,7 +142,7 @@ export default class Database {
   }
 
   async findUser(email) {
-    const user = await User.findOne({ email: email }).exec();
+    const user = await User.findOne({ email: email });
 
     if (user === null) {
       return signale.error("User couldn't be found.");
