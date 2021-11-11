@@ -41,11 +41,11 @@ app.use("/", home);
 app.get("/api/user", async (req, res) => {
   try {
     await database.findUser(req.oidc.user.email).then((user) => {
-      // const userInfo = {
-      //   email: `${user.email}`,
-      //   client_id: `${user.connection}`,
-      // };
-      res.json( user );
+      const userInfo = {
+        email: `${user.email}`,
+        client_id: `${user.client}`,
+      };
+      res.json(userInfo);
     });
   } catch (err) {
     signale.error("User Private Endpoint Error: " + err);

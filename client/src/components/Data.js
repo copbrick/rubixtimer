@@ -49,7 +49,7 @@ function Data() {
     <div>
       <h1>Data</h1>
       <h2>Email: {data.email}</h2>
-      <h2>ID: {data.client_id}</h2>
+      <h2>Client ID: {data.client_id}</h2>
     </div>
   );
 }
