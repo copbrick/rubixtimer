@@ -43,12 +43,12 @@ app.get("/api/user", async (req, res) => {
     await database.findUser(req.oidc.user.email).then((user) => {
       const userInfo = {
         email: `${user.email}`,
-        client_id: `${user.client}`,
+        client_id: `${user.client_id}`,
       };
       res.json(userInfo);
     });
   } catch (err) {
-    signale.error("User Private Endpoint Error: " + err);
+    // signale.error("User Private Endpoint Error: " + err);
   }
 });
 //serve static react build after auth and using routes to stop react build overriding auth

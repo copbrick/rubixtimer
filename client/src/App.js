@@ -35,12 +35,15 @@ import "./App.css";
 import LoginBtn from "./components/LoginBtn";
 import LogoutBtn from "./components/LogoutBtn";
 import Data from "./components/Data";
+import SettingsBtn from "./components/SettingsBtn";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <SettingsBtn />
+
         <LoginBtn />
         <LogoutBtn />
         <Data />
