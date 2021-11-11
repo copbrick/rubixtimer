@@ -7,7 +7,6 @@
 // //fix routes class being imported
 // import { BrowserRouter, Route, Routes, Switch } from "react-router-dom";
 
-
 // function App() {
 //   return (
 //     <div className="App">
@@ -33,8 +32,9 @@
 import logo from "./logo.svg";
 import "./App.css";
 // import Button from '@mui/material/Button';
-import LoginBtn from './components/LoginBtn';
-import LogoutBtn from './components/LogoutBtn';
+import LoginBtn from "./components/LoginBtn";
+import LogoutBtn from "./components/LogoutBtn";
+import Data from "./components/Data";
 
 function App() {
   return (
@@ -43,6 +43,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <LoginBtn />
         <LogoutBtn />
+        <Data />
       </header>
     </div>
   );
