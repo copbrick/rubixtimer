@@ -7,12 +7,11 @@ export default function SettingsBtn() {
     <IconButton
       sx={{
         position: "absolute",
-        top: "0px",
-        right: "0px",
-        width: "5%",
-        height: "5%",
-        color: "red",
+        top: "1%",
+        right: "1%",
+        color: "white",
         cursor: "pointer",
+        transform: "scale(1.8)",
       }}
     >
       <SettingsIcon />

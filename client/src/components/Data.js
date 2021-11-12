@@ -31,7 +31,7 @@ import axios from "axios";
 
 function Data() {
   //fetch data from api with axios
-  const [data, setData] = useState('');
+  const [data, setData] = useState("");
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/user")
