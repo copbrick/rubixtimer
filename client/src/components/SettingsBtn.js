@@ -2,7 +2,7 @@ import React from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
 
-export default function SettingsBtn() {
+export default function SettingsBtn(props) {
   return (
     <IconButton
       sx={{
@@ -13,6 +13,7 @@ export default function SettingsBtn() {
         cursor: "pointer",
         transform: "scale(1.8)",
       }}
+      onClick={props.onClick}
     >
       <SettingsIcon />
     </IconButton>
