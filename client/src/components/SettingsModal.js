@@ -30,8 +30,12 @@ export default function SettingsModal() {
     console.log(color.hex);
   };
 
+  const backgroundStyle = {
+    backgroundColor: color,
+  }
+
   return (
-    <div>
+    <div style = {backgroundStyle}>
       <SettingsBtn onClick={handleOpen}>Open modal</SettingsBtn>
       <Modal
         aria-labelledby="transition-modal-title"
