@@ -5,24 +5,30 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import SettingsBtn from "./SettingsBtn";
+import { GithubPicker } from "react-color";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "75%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  overflowY: "scroll"
 };
 
 export default function SettingsModal() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [color, setColor] = useState("#ff0000");
+  const handleChangeComplete = (color) => {
+    setColor(color.hex);
+    console.log(color.hex);
+  };
 
   return (
     <div>
@@ -43,36 +49,14 @@ export default function SettingsModal() {
             <Typography id="transition-modal-title" variant="h6" component="h2">
               Change Background
             </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-
+            <Typography
+              id="transition-modal-description"
+              sx={{ mt: 2, overflowY: "visible" }}
+            >
+              <GithubPicker
+                color={color}
+                onChangeComplete={handleChangeComplete}
+              />
             </Typography>
           </Box>
         </Fade>
