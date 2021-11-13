@@ -32,10 +32,10 @@ export default function SettingsModal() {
 
   const backgroundStyle = {
     backgroundColor: color,
-  }
+  };
 
   return (
-    <div style = {backgroundStyle}>
+    <div>
       <SettingsBtn onClick={handleOpen}>Open modal</SettingsBtn>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -62,6 +62,10 @@ export default function SettingsModal() {
                 onChangeComplete={handleChangeComplete}
               />
             </Typography>
+            <div>
+              <br/>
+              <h3 style={backgroundStyle}>Testing style change inside modal</h3>
+            </div>
           </Box>
         </Fade>
       </Modal>
