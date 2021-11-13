@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { devURL } from "../config/BaseURL.js";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 
 function Data() {
-  //fetch data from api with axios
   const [data, setData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/user")
+      .get(`${devURL}/api/user`)
       .then((res) => {
         setData(res.data);
         setIsLoading(false);
@@ -18,8 +18,6 @@ function Data() {
         console.log(err);
       });
   }, []);
-
-  // if (!data) return null;
 
   return (
     <div>
