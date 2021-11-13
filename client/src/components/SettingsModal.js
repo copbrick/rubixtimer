@@ -16,14 +16,12 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  overflowY: "scroll"
 };
 
 export default function SettingsModal() {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-    console.log("clicked");
-  };
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
@@ -43,10 +41,38 @@ export default function SettingsModal() {
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
+              Change Background
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+
             </Typography>
           </Box>
         </Fade>
