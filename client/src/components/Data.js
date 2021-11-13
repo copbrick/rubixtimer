@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { devURL } from "../config/BaseURL.js";
+import { baseURL } from "../config/BaseURL.js";
 import Spinner from "react-bootstrap/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -9,7 +9,7 @@ function Data() {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     axios
-      .get(`${devURL}/api/user`)
+      .get(`${baseURL}/api/user`)
       .then((res) => {
         setData(res.data);
         setIsLoading(false);
