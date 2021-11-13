@@ -6,6 +6,18 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import SettingsBtn from "./SettingsBtn";
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function SettingsModal() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -29,7 +41,7 @@ export default function SettingsModal() {
         }}
       >
         <Fade in={open}>
-          <Box>
+          <Box sx={style}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
               Text in a modal
             </Typography>
