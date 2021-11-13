@@ -42,8 +42,7 @@ app.get("/api/user", async (req, res) => {
   try {
     await database.findUser(req.oidc.user.email).then((user) => {
       const userInfo = {
-        email: `${user.email}`,
-        client_id: `${user.client_id}`,
+        email: user.email,
       };
       res.json(userInfo);
     });

@@ -1,42 +1,18 @@
 import React, { useState, useEffect } from "react";
+import Spinner from "react-bootstrap/Spinner";
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-
-// function Data() {
-//   //fetch data from api with axios
-//   const [data, setData] = useState([]);
-//   useEffect(() => {
-//     axios
-//       .get("https://jsonplaceholder.typicode.com/users")
-//       .then((res) => {
-//         setData(res.data);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>Data</h1>
-//       <ul>
-//         {data.map((item) => (
-//           <li key={item.id}>
-//             {item.name} - {item.email}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// }
 
 function Data() {
   //fetch data from api with axios
   const [data, setData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/user")
       .then((res) => {
         setData(res.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -47,9 +23,19 @@ function Data() {
 
   return (
     <div>
-      <h1>Data</h1>
-      <h2>Email: {data.email}</h2>
-      <h2>Client ID: {data.client_id}</h2>
+      <br />
+      {isLoading ? (
+        <div>
+          <Spinner animation="border" role="status" variant="info">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : (
+        <div>
+          <h1>Data</h1>
+          <h2>Email: {data.email}</h2>
+        </div>
+      )}
     </div>
   );
 }
