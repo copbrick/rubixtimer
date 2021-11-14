@@ -286,7 +286,7 @@ export default class Database {
     return signale.success("Statistic successfully updated!");
   }
 
-  async updateSettings(email, { newUIMode }) {
+  async updateBackgroundColor(email, { newBackgroundColor }) {
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
@@ -295,7 +295,7 @@ export default class Database {
         $push: {
           settings: [
             {
-              UIMode: newUIMode,
+              backgroundColor: newBackgroundColor,
             },
           ],
         },
