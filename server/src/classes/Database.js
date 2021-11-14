@@ -309,7 +309,7 @@ export default class Database {
       return signale.error("Couldn't find email. User not updated.");
     }
 
-    return signale.success("Setting successfully updated!");
+    return signale.success("Background Color successfully updated!");
   }
 
   async clearStatistics(email) {
