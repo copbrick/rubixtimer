@@ -53,6 +53,7 @@ app.get("/api/user", async (req, res) => {
 
 app.post("/api/update/settings", async (req, res) => {
   try {
+    console.log(req.body);
     await database.updateBackgroundColor(req.oidc.user.email, {
       newBackgroundColor: req.body,
     });

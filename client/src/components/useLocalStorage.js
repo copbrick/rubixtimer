@@ -7,10 +7,10 @@ function getStorageValue(key, defaultValue) {
   return initial || defaultValue;
 }
 /**
- * 
- * @param {*} key 
- * @param {*} defaultValue 
- * @returns 
+ *
+ * @param {*} key
+ * @param {*} defaultValue
+ * @returns
  */
 export const useLocalStorage = (key, defaultValue) => {
   const [value, setValue] = useState(() => {
