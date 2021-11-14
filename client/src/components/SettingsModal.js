@@ -20,11 +20,10 @@ const style = {
   p: 4,
 };
 
-export default function SettingsModal() {
+export default function SettingsModal( { color, setColor } ) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [color, setColor] = useLocalStorage("color", "");
   const handleChangeComplete = (color) => {
     setColor(color.hex);
   };

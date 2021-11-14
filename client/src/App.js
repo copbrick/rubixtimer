@@ -1,17 +1,18 @@
 import logo from "./logo.svg";
 import "./App.css";
-// import Button from '@mui/material/Button';
 import LoginBtn from "./components/LoginBtn";
 import LogoutBtn from "./components/LogoutBtn";
 import Data from "./components/Data";
 import SettingsModal from "./components/SettingsModal";
+import { useLocalStorage } from "./components/useLocalStorage";
 
 function App() {
+  const [color, setColor] = useLocalStorage("color", "");
   return (
     <div className="App">
-      <header className="App-header" style={{backgroundColor: JSON.parse(localStorage.getItem("color"))}}>
-        <img src={logo} className="App-logo" alt="logo" />
-        <SettingsModal />
+      <header className="App-header" style = {{backgroundColor : color}}>
+        <img src={logo} className="App-logo" alt="logo"/>
+        <SettingsModal color={color} setColor={setColor} />
         <LoginBtn />
         <LogoutBtn />
         <Data />

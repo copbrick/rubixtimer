@@ -6,7 +6,12 @@ function getStorageValue(key, defaultValue) {
   const initial = JSON.parse(saved);
   return initial || defaultValue;
 }
-
+/**
+ * 
+ * @param {*} key 
+ * @param {*} defaultValue 
+ * @returns 
+ */
 export const useLocalStorage = (key, defaultValue) => {
   const [value, setValue] = useState(() => {
     return getStorageValue(key, defaultValue);
