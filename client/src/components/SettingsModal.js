@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import SettingsBtn from "./SettingsBtn";
 import { GithubPicker } from "react-color";
+import { useLocalStorage } from "./useLocalStorage";
 
 const style = {
   position: "absolute",
@@ -23,19 +24,10 @@ export default function SettingsModal() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [color, setColor] = useState("#ff0000");
+  const [color, setColor] = useLocalStorage("color", "");
   const handleChangeComplete = (color) => {
     setColor(color.hex);
-    localStorage.setItem("color", JSON.stringify(color.hex));
-    console.log(color.hex);
   };
-
-  useEffect(() => {
-    const color = localStorage.getItem("color");
-    if (color) {
-      setColor(JSON.parse(color));
-    }
-  }, []);
 
   return (
     <div>
