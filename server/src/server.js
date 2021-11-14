@@ -50,6 +50,27 @@ app.get("/api/user", async (req, res) => {
     // signale.error("User Private Endpoint Error: " + err);
   }
 });
+
+app.post("/api/update/settings", async (req, res) => {
+  try {
+    await database.updateBackgroundColor(req.oidc.user.email, {
+      newBackgroundColor: req.body,
+    });
+  } catch (err) {
+    signale.error("Update Settings Error: " + err);
+  }
+});
+
+app.post("/api/update/statistics", async (req, res) => {
+  try {
+    await database.updateStatistics(req.oidc.user.email, {
+      newStatistics: req.body,
+    });
+  } catch (err) {
+    signale.error("Update Statistics Error: " + err);
+  }
+});
+
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
 

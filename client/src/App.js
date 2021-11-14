@@ -5,6 +5,7 @@ import LogoutBtn from "./components/LogoutBtn";
 import Data from "./components/Data";
 import SettingsModal from "./components/SettingsModal";
 import { useLocalStorage } from "./components/useLocalStorage";
+import {useDBStorage} from "./components/useDBStorage";
 
 function App() {
   const [color, setColor] = useLocalStorage("color", "");
