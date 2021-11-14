@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -23,16 +23,19 @@ export default function SettingsModal() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
   const [color, setColor] = useState("#ff0000");
   const handleChangeComplete = (color) => {
     setColor(color.hex);
+    localStorage.setItem("color", JSON.stringify(color.hex));
     console.log(color.hex);
   };
 
-  const backgroundStyle = {
-    backgroundColor: color,
-  };
+  useEffect(() => {
+    const color = localStorage.getItem("color");
+    if (color) {
+      setColor(JSON.parse(color));
+    }
+  }, []);
 
   return (
     <div>
@@ -62,10 +65,6 @@ export default function SettingsModal() {
                 onChangeComplete={handleChangeComplete}
               />
             </Typography>
-            <div>
-              <br/>
-              <h3 style={backgroundStyle}>Testing style change inside modal</h3>
-            </div>
           </Box>
         </Fade>
       </Modal>

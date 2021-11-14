@@ -9,7 +9,7 @@ import SettingsModal from "./components/SettingsModal";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" style={{backgroundColor: JSON.parse(localStorage.getItem("color"))}}>
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal />
         <LoginBtn />
