@@ -9,12 +9,12 @@ import { useDBStorage } from "./components/useDBStorage";
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
-  const { color, setColor } = useDBStorage("settings", "black");
+  const [color, setColor] = useDBStorage("color", "");
   return (
     <div className="App">
-      <header className="App-header" style={{ backgroundColor: color }}>
-        {/* <header className="App-header" style = {{backgroundColor : color === undefined ? 'black' : color}}> */}
-        {/* <header className="App-header" style = {{backgroundColor : color}}> */}
+      {/* <header className="App-header" style={{ backgroundColor: color }}> */}
+        {/* <header className="App-header" style = {{backgroundColor : color === null ? 'black' : color}}> */}
+        <header className="App-header" style = {{backgroundColor : color}}>
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal color={color} setColor={setColor} />
         <LoginBtn />
