@@ -43,8 +43,9 @@ app.get("/api/user", async (req, res) => {
     await database.findUser(req.oidc.user.email).then((user) => {
       const userInfo = {
         email: user.email,
+        settings: user.settings,
       };
-      res.json(user);
+      res.json(userInfo);
     });
   } catch (err) {
     // signale.error("User Private Endpoint Error: " + err);
@@ -54,9 +55,8 @@ app.get("/api/user", async (req, res) => {
 app.post("/api/update/settings", async (req, res) => {
   try {
     console.log(req.body);
-    await database.updateBackgroundColor(req.oidc.user.email, {
-      newBackgroundColor: req.body,
-    });
+    const backgroundColor = req.body.backgroundColor;
+    await database.updateBackgroundColor(req.oidc.user.email, backgroundColor);
   } catch (err) {
     signale.error("Update Settings Error: " + err);
   }
