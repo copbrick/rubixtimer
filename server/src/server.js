@@ -44,7 +44,7 @@ app.get("/api/user", async (req, res) => {
       const userInfo = {
         email: user.email,
       };
-      res.json(userInfo);
+      res.json(user);
     });
   } catch (err) {
     // signale.error("User Private Endpoint Error: " + err);
@@ -77,10 +77,7 @@ app.use(express.static(path.join(__dirname, "../../client", "build")));
 
 // const main = async () => {
 //   try {
-//     const user = await database.updateStatistics("a1@copbrick.club", {
-//       average: 1,
-//       averageof5: 2,
-//     });
+//     const user = await database.updateBackgroundColor("gbrbachchu@gmail.com", "orange");
 //     signale.info(user);
 //   } catch (err) {
 //     signale.error("Database Error: " + err);

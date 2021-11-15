@@ -286,18 +286,14 @@ export default class Database {
     return signale.success("Statistic successfully updated!");
   }
 
-  async updateBackgroundColor(email, { newBackgroundColor }) {
+  async updateBackgroundColor(email, newBackgroundColor) {
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
       },
       {
-        $push: {
-          settings: [
-            {
-              backgroundColor: newBackgroundColor,
-            },
-          ],
+        settings: {
+          backgroundColor: newBackgroundColor,
         },
       },
       {
