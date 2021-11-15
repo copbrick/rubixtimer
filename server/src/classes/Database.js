@@ -245,7 +245,7 @@ export default class Database {
         email: email,
       },
       {
-        email: newProfileImage,
+        profileImage: newProfileImage,
       },
       {
         returnDocument: "after",
@@ -259,20 +259,18 @@ export default class Database {
     return signale.success("Profile Picture successfully updated!");
   }
 
-  async updateStatistics(email, { average, averageof5 }) {
+  async updateStatistics(email, { average, averageOf5 }) {
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
       },
       {
-        $push: {
-          statistics: [
-            {
-              average: average,
-              averageOf5: averageof5,
-            },
-          ],
-        },
+        statistics: [
+          {
+            average: average,
+            averageOf5: averageOf5,
+          },
+        ],
       },
       {
         returnDocument: "after",

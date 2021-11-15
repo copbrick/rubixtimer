@@ -1,12 +1,4 @@
 import dotenv from "dotenv";
-import express from "express";
-import signale from "signale";
-import signaleConfig from "../config/signaleConfig.js";
-import Database from "./classes/Database.js";
-
-import path from "path";
-const __dirname = path.resolve();
-
 dotenv.config({ path: "../config/.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
@@ -14,10 +6,18 @@ const secret = process.env.SECRET;
 const baseURL = process.env.BASE_URL;
 const clientID = process.env.CLIENT_ID;
 const issuerBaseURL = process.env.ISSUER_BASE_URL;
+import Database from "./classes/Database.js";
+const database = new Database(dbConn);
+import express from "express";
+import signale from "signale";
+import signaleConfig from "../config/signaleConfig.js";
+import path from "path";
+const __dirname = path.resolve();
 
 const app = express();
+
+//Express JSON middleware
 app.use(express.json());
-const database = new Database(dbConn);
 
 //import auth from express open id connect, and configure it
 import { auth } from "express-openid-connect";
@@ -45,6 +45,7 @@ app.get("/api/user", async (req, res) => {
       const userInfo = {
         email: user.email,
         settings: user.settings,
+        statistics: user.statistics,
       };
       res.json(userInfo);
     });
@@ -55,7 +56,7 @@ app.get("/api/user", async (req, res) => {
 
 app.post("/api/update/settings", async (req, res) => {
   try {
-    const backgroundColor = req.body.backgroundColor;
+    const { backgroundColor } = req.body;
     await database.updateBackgroundColor(req.oidc.user.email, backgroundColor);
     res.send(backgroundColor);
   } catch (err) {
@@ -65,9 +66,10 @@ app.post("/api/update/settings", async (req, res) => {
 
 app.post("/api/update/statistics", async (req, res) => {
   try {
-    await database.updateStatistics(req.oidc.user.email, {
-      newStatistics: req.body,
-    });
+    const { average, averageOf5 } = req.body;
+    const statistics = { average, averageOf5 };
+    await database.updateStatistics(req.oidc.user.email, statistics);
+    res.send(statistics);
   } catch (err) {
     signale.error("Update Statistics Error: " + err);
   }
