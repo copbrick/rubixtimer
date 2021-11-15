@@ -58,18 +58,21 @@ app.post("/api/update/settings", async (req, res) => {
   try {
     const { backgroundColor } = req.body;
     await database.updateBackgroundColor(req.oidc.user.email, backgroundColor);
-    res.send(backgroundColor);
+    res.sendStatus(200);
   } catch (err) {
     signale.error("Update Settings Error: " + err);
   }
 });
 
+//TODO: Work on fixing if only 1 statistic is changed and not the other. Currently, it sets the value that's not sent as null.
 app.post("/api/update/statistics", async (req, res) => {
   try {
-    const { average, averageOf5 } = req.body;
+    const average = req.body.average || undefined;
+    const averageOf5 = req.body.averageOf5 || undefined;
+
     const statistics = { average, averageOf5 };
     await database.updateStatistics(req.oidc.user.email, statistics);
-    res.send(statistics);
+    res.sendStatus(200);
   } catch (err) {
     signale.error("Update Statistics Error: " + err);
   }
