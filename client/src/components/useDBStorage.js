@@ -1,35 +1,49 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { baseURL } from "../config/BaseURL";
 
-function getStorageValue(key, value) {
+function getStorageValue(key, defaultValue) {
   //get from mongoDB
-  return axios
-    .get(`${baseURL}/api/storage/${key}`)
+  axios
+    .get(`${baseURL}/api/user/`)
     .then((res) => {
+      console.log("Res data" + res.data);
+      // return res.body.backgroundColor;
       return res.data;
     })
     .catch((err) => {
-      return value;
+      return ("err" + err);
     });
+
+    // useEffect(() => {
+    //   axios
+    //     .get(`${baseURL}/api/user`)
+    //     .then((res) => {
+    //       return res.data;
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }, []);
 }
 
-export const useDBStorage = (key, value) => {
+export const useDBStorage = (key, defaultValue) => {
   const [value, setValue] = useState(() => {
-    return getStorageValue(key, value);
+    return getStorageValue(key, defaultValue);
   });
-  const url = `${baseURL}/api/update/${key}`;
-  console.log(url);
-  const body = { newBackgroundColor: value };
 
+  const url = `${baseURL}/api/update/${key}`;
+  const body = { backgroundColor: value };
   useEffect(() => {
     axios
       .post(url, { body })
       .then((res) => {
-        console.log(res);
+        console.log("post res" + res);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("post err" + err);
       });
-  }, [value]);
+  }, [key, value]);
+
+  return [value, setValue];
 };
