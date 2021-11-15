@@ -16,6 +16,7 @@ const clientID = process.env.CLIENT_ID;
 const issuerBaseURL = process.env.ISSUER_BASE_URL;
 
 const app = express();
+app.use(express.json());
 const database = new Database(dbConn);
 
 //import auth from express open id connect, and configure it
@@ -54,9 +55,9 @@ app.get("/api/user", async (req, res) => {
 
 app.post("/api/update/settings", async (req, res) => {
   try {
-    console.log(req.body);
     const backgroundColor = req.body.backgroundColor;
     await database.updateBackgroundColor(req.oidc.user.email, backgroundColor);
+    res.send(backgroundColor);
   } catch (err) {
     signale.error("Update Settings Error: " + err);
   }
