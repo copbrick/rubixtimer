@@ -92,18 +92,6 @@ app.post("/api/update/statistics", async (req, res) => {
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
 
-// const main = async () => {
-//   try {
-//     const user = await database.updateBackgroundColor("gbrbachchu@gmail.com", "orange");
-//     signale.info(user);
-//   } catch (err) {
-//     signale.error("Database Error: " + err);
-//   }
-// };
-
-// main().then(() => {
-//   signale.info("Main Function Started...");
-// });
 
 //start server
 app.listen(port, () => {
