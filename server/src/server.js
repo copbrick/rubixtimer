@@ -9,6 +9,7 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 import Database from "./classes/Database.js";
 const database = new Database(dbConn);
 import express from "express";
+import rateLimit from "express-rate-limit";
 import signale from "signale";
 import signaleConfig from "../config/signaleConfig.js";
 import path from "path";
@@ -18,6 +19,15 @@ const app = express();
 
 //Express JSON middleware
 app.use(express.json());
+
+//Express Rate Limit middleware
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: "Too many requests from this IP, please try again later",
+  })
+);
 
 //import auth from express open id connect, and configure it
 import { auth } from "express-openid-connect";
