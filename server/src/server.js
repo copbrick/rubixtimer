@@ -31,11 +31,12 @@ const config = {
 //Express JSON middleware
 app.use(express.json());
 
-//Express Rate Limit middleware
+//Express Rate Limit middleware for API routes
 app.use(
+  "/api",
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: 3, // limit each IP to 100 requests per windowMs
     message: "Too many requests from this IP, please try again later",
   })
 );
