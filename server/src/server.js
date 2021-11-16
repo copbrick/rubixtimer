@@ -17,6 +17,17 @@ const __dirname = path.resolve();
 
 const app = express();
 
+//import auth from express open id connect, and configure it
+import { auth } from "express-openid-connect";
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: `${secret}`,
+  baseURL: `${baseURL}`,
+  clientID: `${clientID}`,
+  issuerBaseURL: `${issuerBaseURL}`,
+};
+
 //Express JSON middleware
 app.use(express.json());
 
@@ -28,17 +39,6 @@ app.use(
     message: "Too many requests from this IP, please try again later",
   })
 );
-
-//import auth from express open id connect, and configure it
-import { auth } from "express-openid-connect";
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: `${secret}`,
-  baseURL: `${baseURL}`,
-  clientID: `${clientID}`,
-  issuerBaseURL: `${issuerBaseURL}`,
-};
 
 //auth router attaches /login, /logout, and /callback routes to the baseURL (auth middleware)
 //have app use auth along with its configration and built in routes
