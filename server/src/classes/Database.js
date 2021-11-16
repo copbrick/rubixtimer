@@ -11,7 +11,7 @@ const image = discordConfig.image;
 // const { Signale } = signale;
 // const interactive = new Signale({ interactive: true, scope: "interactive" });
 
-import { Client, Intents, Channel, MessageEmbed } from "discord.js";
+import { Client, Intents, Channel, MessageEmbed, UserFlags } from "discord.js";
 const client = new Client({
   intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
 });
@@ -112,9 +112,11 @@ export default class Database {
   async watchEvents() {
     try {
       signale.start("Watching for database events...");
-      const changeStream = User.watch({ fullDocument: "updateLookup" });
+      const changeStream = User.watch([
+        { $match: { operationType: "insert" } },
+      ]);
       changeStream.on("change", (next) => {
-        //when new user created send discord webhook contained rich embed
+        //when new user created send discord webhook contained rich embed if user doesn't already exist
         const embed = new MessageEmbed()
           .setAuthor("RubixTimer Events")
           .setTitle("New User Created")
@@ -145,7 +147,7 @@ export default class Database {
     const user = await User.findOne({ email: email });
 
     if (user === null) {
-      return signale.error("User couldn't be found.");
+      signale.error("User couldn't be found.");
     }
 
     signale.success("User Successfully Found.");
