@@ -9,7 +9,7 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 import Database from "./classes/Database.js";
 const database = new Database(dbConn);
 import express from "express";
-import rateLimit from "express-rate-limit";
+import slowDown from "express-slow-down";
 import signale from "signale";
 import signaleConfig from "../config/signaleConfig.js";
 import path from "path";
@@ -34,10 +34,14 @@ app.use(express.json());
 //Express Rate Limit middleware for API routes
 app.use(
   "/api",
-  rateLimit({
+  slowDown({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 3, // limit each IP to 100 requests per windowMs
-    message: "Too many requests from this IP, please try again later",
+    delayAfter: 100, // limit each IP to 100 requests per windowMs
+    delayMs: 100, // slow down subsequent requests by 100ms
+    maxDelayMs: 2000, // start blocking after 2000ms requests
+    onLimitReached: (req, res, options) => {
+      res.status(429).send("Too many requests, please try again later.");
+    },
   })
 );
 
@@ -91,7 +95,6 @@ app.post("/api/update/statistics", async (req, res) => {
 
 //serve static react build after auth and using routes to stop react build overriding auth
 app.use(express.static(path.join(__dirname, "../../client", "build")));
-
 
 //start server
 app.listen(port, () => {
