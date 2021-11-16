@@ -5,7 +5,7 @@ import { baseURL } from "../config/BaseURL";
 function getStorageValue(setValue) {
   //get from mongoDB
   axios
-    .get(`${baseURL}/api/user/`)
+    .get(`${baseURL}/api/user`)
     .then((res) => {
       console.log("res data from get " + res.data.settings[0].backgroundColor);
       if (res.data.settings[0].backgroundColor === null) {
