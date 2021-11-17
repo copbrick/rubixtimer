@@ -7,12 +7,11 @@ const token = discordConfig.token;
 const webhook = discordConfig.webhook;
 const image = discordConfig.image;
 
-const { Signale } = signale;
-
 //not being used right now
+// const { Signale } = signale;
 // const interactive = new Signale({ interactive: true, scope: "interactive" });
 
-import { Client, Intents, Channel, MessageEmbed } from "discord.js";
+import { Client, Intents, Channel, MessageEmbed, UserFlags } from "discord.js";
 const client = new Client({
   intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
 });
@@ -113,9 +112,11 @@ export default class Database {
   async watchEvents() {
     try {
       signale.start("Watching for database events...");
-      const changeStream = User.watch({ fullDocument: "updateLookup" });
+      const changeStream = User.watch([
+        { $match: { operationType: "insert" } },
+      ]);
       changeStream.on("change", (next) => {
-        //when new user created send discord webhook contained rich embed
+        //when new user created send discord webhook contained rich embed if user doesn't already exist
         const embed = new MessageEmbed()
           .setAuthor("RubixTimer Events")
           .setTitle("New User Created")
@@ -143,10 +144,10 @@ export default class Database {
   }
 
   async findUser(email) {
-    const user = await User.findOne({ email: email }).exec();
+    const user = await User.findOne({ email: email });
 
     if (user === null) {
-      return signale.error("User couldn't be found.");
+      signale.error("User couldn't be found.");
     }
 
     signale.success("User Successfully Found.");
@@ -246,7 +247,7 @@ export default class Database {
         email: email,
       },
       {
-        email: newProfileImage,
+        profileImage: newProfileImage,
       },
       {
         returnDocument: "after",
@@ -260,20 +261,18 @@ export default class Database {
     return signale.success("Profile Picture successfully updated!");
   }
 
-  async updateStatistics(email, { average, averageof5 }) {
+  async updateStatistics(email, { average, averageOf5 }) {
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
       },
       {
-        $push: {
-          statistics: [
-            {
-              average: average,
-              averageOf5: averageof5,
-            },
-          ],
-        },
+        statistics: [
+          {
+            average: average,
+            averageOf5: averageOf5,
+          },
+        ],
       },
       {
         returnDocument: "after",
@@ -287,18 +286,14 @@ export default class Database {
     return signale.success("Statistic successfully updated!");
   }
 
-  async updateSettings(email, { newUIMode }) {
+  async updateBackgroundColor(email, newBackgroundColor) {
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
       },
       {
-        $push: {
-          settings: [
-            {
-              UIMode: newUIMode,
-            },
-          ],
+        settings: {
+          backgroundColor: newBackgroundColor,
         },
       },
       {
@@ -310,7 +305,7 @@ export default class Database {
       return signale.error("Couldn't find email. User not updated.");
     }
 
-    return signale.success("Setting successfully updated!");
+    return signale.success("Background Color successfully updated!");
   }
 
   async clearStatistics(email) {

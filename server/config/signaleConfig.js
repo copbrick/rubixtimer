@@ -5,7 +5,7 @@ export default signale.config({
     "displayScope": true,
     "displayBadge": true,
     "displayDate": false,
-    "displayFilename": false,
+    "displayFilename": true,
     "displayLabel": true,
     "displayTimestamp": true,
     "underlineLabel": true,
