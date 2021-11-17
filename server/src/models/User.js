@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
   request_language: { type: String, required: false },
   
   //verify email - auth0 as well
-  email_verified: { type: String, required: false },
+  email_verified: { type: String, required: false, default: false },
 });
 
 const User = mongoose.model("User", UserSchema);
