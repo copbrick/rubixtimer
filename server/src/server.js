@@ -18,7 +18,8 @@ const __dirname = path.resolve();
 const app = express();
 
 //import auth from express open id connect, and configure it
-import { auth } from "express-openid-connect";
+import pkg from "express-openid-connect";
+const { auth, requiresAuth } = pkg;
 const config = {
   authRequired: false,
   auth0Logout: true,
@@ -45,6 +46,9 @@ app.use(
   })
 );
 
+// //Secure API routes with express open id connect
+// app.use("/api", requiresAuth());
+
 //auth router attaches /login, /logout, and /callback routes to the baseURL (auth middleware)
 //have app use auth along with its configration and built in routes
 app.use(auth(config));
@@ -54,7 +58,7 @@ import home from "./routes/home.js";
 app.use("/", home);
 
 //get the user info from the database
-app.get("/api/user", async (req, res) => {
+app.get("/api/user", requiresAuth(), async (req, res) => {
   try {
     await database.findUser(req.oidc.user.email).then((user) => {
       const userInfo = {
@@ -69,7 +73,7 @@ app.get("/api/user", async (req, res) => {
   }
 });
 
-app.post("/api/update/settings", async (req, res) => {
+app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
     const { backgroundColor } = req.body;
     await database.updateBackgroundColor(req.oidc.user.email, backgroundColor);
@@ -80,7 +84,7 @@ app.post("/api/update/settings", async (req, res) => {
 });
 
 //TODO: Work on fixing if only 1 statistic is changed and not the other. Currently, it sets the value that's not sent as null.
-app.post("/api/update/statistics", async (req, res) => {
+app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
   try {
     const average = req.body.average || undefined;
     const averageOf5 = req.body.averageOf5 || undefined;
