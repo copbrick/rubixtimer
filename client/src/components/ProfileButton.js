@@ -1,21 +1,21 @@
 import React from "react";
 import IconButton from "@mui/material/IconButton";
-import SettingsIcon from "@mui/icons-material/Settings";
+import PersonIcon from '@mui/icons-material/Person';
 
-export default function SettingsBtn(props) {
+export default function ProfileButton(props) {
   return (
     <IconButton
       sx={{
         position: "absolute",
         top: "2%",
-        right: "1%",
+        left: "1%",
         color: "white",
         cursor: "pointer",
         transform: "scale(1.8)",
       }}
       onClick={props.onClick}
     >
-      <SettingsIcon />
+      <PersonIcon />
     </IconButton>
   );
 }

@@ -2,10 +2,12 @@ import logo from "./logo.svg";
 import "./App.css";
 import LoginBtn from "./components/LoginBtn";
 import LogoutBtn from "./components/LogoutBtn";
+import ProfileButton from "./components/ProfileButton";
 import Data from "./components/Data";
 import SettingsModal from "./components/SettingsModal";
 import { useLocalStorage } from "./components/useLocalStorage";
 import { useDBStorage } from "./components/useDBStorage";
+import ProfileModal from "./components/ProfileModal";
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
@@ -17,6 +19,7 @@ function App() {
         <header className="App-header" style = {{backgroundColor : color}}>
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal color={color} setColor={setColor} />
+        <ProfileModal color={color} setColor={setColor} />
         <LoginBtn />
         <LogoutBtn />
         <Data />
