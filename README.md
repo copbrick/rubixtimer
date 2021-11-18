@@ -14,8 +14,6 @@
 
 ### Jest - unit testing
 
-***
-
 ## Frontend
 
 ### React
@@ -29,8 +27,6 @@
 ### Bootstrap
 
 ### Jest - unit testing
-
-***
 
 ## Miscellaneous
 
