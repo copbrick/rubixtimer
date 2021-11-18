@@ -2,11 +2,11 @@
 
 ## Backend
 
+#### Node js
+
 #### MongoDB - Database for users that are logged in
 
 #### Express - Express OpenID Connect for Auth along with Auth0, Express Slow Down for rate limiting
-
-#### Node js
 
 #### Auth0 - Primary authentication system
 
