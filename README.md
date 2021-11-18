@@ -8,7 +8,7 @@
 
 #### Node js
 
-#### Auth0 as primary authentication
+#### Auth0 - Primary authentication system
 
 #### Signale - highly configurable logger
 
