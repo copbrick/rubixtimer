@@ -24,7 +24,7 @@
 
 #### Material UI - design
 
-#### Bootstrap
+#### Bootstrap - design
 
 #### Jest - unit testing
 
