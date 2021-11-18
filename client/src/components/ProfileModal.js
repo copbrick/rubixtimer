@@ -5,15 +5,16 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import ProfileButton from "./ProfileButton";
+import LogoutBtn from "./LogoutBtn";
 import {baseURL} from "../config/BaseURL";
 import axios from "axios";
 
 const style = {
-  position: "absolute",
+  position: "relative",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "75%",
+  width: "25%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -61,6 +62,7 @@ export default function ProfileModal() {
               sx={{ mt: 2, overflowY: "visible" }}
             >
             </Typography>
+            <LogoutBtn />
           </Box>
         </Fade>
       </Modal>

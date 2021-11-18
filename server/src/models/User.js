@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   transaction: { type: Object, required: false },
   request_language: { type: String, required: false },
+  email_verified: { type: Boolean, required: false },
 });
 
 const User = mongoose.model("User", UserSchema);
