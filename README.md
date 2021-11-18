@@ -2,34 +2,34 @@
 
 ## Backend
 
-### MongoDB - Database for users that are logged in
+#### MongoDB - Database for users that are logged in
 
-### Express - Express OpenID Connect for Auth along with Auth0, Express Slow Down for rate limiting
+#### Express - Express OpenID Connect for Auth along with Auth0, Express Slow Down for rate limiting
 
-### Node js
+#### Node js
 
-### Auth0 as primary authentication
+#### Auth0 as primary authentication
 
-### Signale - highly configurable logger
+#### Signale - highly configurable logger
 
-### Jest - unit testing
+#### Jest - unit testing
 
 ## Frontend
 
-### React
+#### React
 
-### Axios - promise based http client
+#### Axios - promise based http client
 
-### Local Storage - as Database for users that are not logged in
+#### Local Storage - as Database for users that are not logged in
 
-### Material UI - design
+#### Material UI - design
 
-### Bootstrap
+#### Bootstrap
 
-### Jest - unit testing
+#### Jest - unit testing
 
 ## Miscellaneous
 
-### Github Actions - automated testing (CI)
+#### Github Actions - automated testing (CI)
 
-### Heroku - Deployment in future
+#### Heroku - Deployment in future
