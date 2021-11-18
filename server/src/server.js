@@ -3,6 +3,7 @@ dotenv.config({ path: "../config/.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
 const secret = process.env.SECRET;
+const clientSecret = process.env.CLIENT_SECRET;
 const baseURL = process.env.BASE_URL;
 const clientID = process.env.CLIENT_ID;
 const issuerBaseURL = process.env.ISSUER_BASE_URL;
@@ -11,7 +12,6 @@ const database = new Database(dbConn);
 import express from "express";
 import slowDown from "express-slow-down";
 import signale from "signale";
-import signaleConfig from "../config/signaleConfig.js";
 import path from "path";
 const __dirname = path.resolve();
 
@@ -24,6 +24,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: `${secret}`,
+  clientSecret: `${clientSecret}`,
   baseURL: `${baseURL}`,
   clientID: `${clientID}`,
   issuerBaseURL: `${issuerBaseURL}`,
