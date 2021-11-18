@@ -12,6 +12,7 @@ router.get("/", (req, res) => {
 
   if (req.oidc.isAuthenticated()) {
     signale.success(`User ${req.oidc.user.email} is logged in`);
+    signale.info(req.oidc.user);
   } else {
     signale.warn("User is not logged in");
   }
