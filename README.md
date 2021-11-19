@@ -4,13 +4,13 @@
 
 #### Node js
 
-#### MongoDB - Database for users that are logged in
+#### Auth0 - Primary authentication system
+
+`MongoDB` - Database for users that are logged in
 
 #### Express - Express OpenID Connect for Auth along with Auth0, Express Slow Down for rate limiting
 
 #### Joi - API Request data validation
-
-#### Auth0 - Primary authentication system
 
 #### Signale - highly configurable logger
 
