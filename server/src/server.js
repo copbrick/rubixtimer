@@ -72,6 +72,8 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
       res.json(userInfo);
     });
   } catch (err) {
+    res.send("couldn't find user from server - no bueno");
+    res.sendStatus(500);
     // signale.error("User Private Endpoint Error: " + err);
   }
 });
@@ -81,9 +83,9 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
     const { backgroundColor } = req.body;
 
     const validationSchema = Joi.object({
-      backgroundColor: Joi
-        .string()
-        .pattern(new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")),
+      backgroundColor: Joi.string().pattern(
+        new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
+      ),
     });
 
     const validationFlag = validationSchema.validate({ backgroundColor });
