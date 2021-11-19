@@ -30,6 +30,7 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.0.1",
     "react-scripts": "4.0.3",
+    "rubiks-cube-scramble": "^1.0.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

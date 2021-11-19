@@ -19,12 +19,12 @@ const style = {
   p: 4,
 };
 
-export default function SettingsModal( { color, setColor } ) {
+export default function SettingsModal(props) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleChangeComplete = (color) => {
-    setColor(color.hex);
+    props.setColor(color.hex);
   };
 
   return (
@@ -51,7 +51,7 @@ export default function SettingsModal( { color, setColor } ) {
               sx={{ mt: 2, overflowY: "visible" }}
             >
               <GithubPicker
-                color={color}
+                color={props.color}
                 onChangeComplete={handleChangeComplete}
               />
             </Typography>
