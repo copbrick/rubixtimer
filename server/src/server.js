@@ -9,6 +9,8 @@ const clientID = process.env.CLIENT_ID;
 const issuerBaseURL = process.env.ISSUER_BASE_URL;
 import Database from "./classes/Database.js";
 const database = new Database(dbConn);
+
+import joi from "joi";
 import express from "express";
 import slowDown from "express-slow-down";
 import signale from "signale";
@@ -77,14 +79,29 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
 app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
     const { backgroundColor } = req.body;
-    await database.updateBackgroundColor(req.oidc.user.email, backgroundColor);
-    res.sendStatus(200);
+
+    const validationSchema = joi.object({
+      backgroundColor: joi
+        .string()
+        .pattern(new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")),
+    });
+
+    const validationFlag = validationSchema.validate({ backgroundColor });
+
+    if (validationFlag.error) {
+      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
+    } else {
+      await database.updateBackgroundColor(
+        req.oidc.user.email,
+        backgroundColor
+      );
+      res.sendStatus(200);
+    }
   } catch (err) {
     signale.error("Update Settings Error: " + err);
   }
 });
 
-//TODO: Work on fixing if only 1 statistic is changed and not the other. Currently, it sets the value that's not sent as null.
 app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
   try {
     const average = req.body.average || undefined;
