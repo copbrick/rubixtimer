@@ -1,39 +1,35 @@
-# Tech stack so far
+## Tech stack so far
 
-## Backend
+### Backend - `Node JS`
 
-#### Node js
+`Auth0` - Primary authentication system
 
-#### MongoDB - Database for users that are logged in
+`MongoDB` - Database for users that are logged in
 
-#### Express - Express OpenID Connect for Auth along with Auth0, Express Slow Down for rate limiting
+`Express` - `Express OpenID Connect` for Auth along with `Auth0`, `Express Slow Down` for rate limiting
 
-#### Joi - API Request data validation
+`Joi` - API request data validation
 
-#### Auth0 - Primary authentication system
+`Signale` - Highly configurable logger
 
-#### Signale - highly configurable logger
+`Jest` - Unit testing
 
-#### Jest - unit testing
+### Frontend - `React`
 
-## Frontend
+`Axios` - Promise based HTTP client
 
-#### React
+`Local Storage` - Database for users that are not logged in
 
-#### Axios - promise based http client
+`Rubiks Cube Scrambler` - Library to generate random scramble strings 
 
-#### Local Storage - as Database for users that are not logged in
+`Material UI` - Design
 
-#### Rubiks Cube Scrambler - library to generate random scramble strings 
+`Bootstrap` - Design
 
-#### Material UI - design
+`Jest` - Unit testing
 
-#### Bootstrap - design
+### Miscellaneous
 
-#### Jest - unit testing
+`Github Actions` - Automated testing (CI)
 
-## Miscellaneous
-
-#### Github Actions - automated testing (CI)
-
-#### Heroku - Deployment in future
+`Heroku` - Deployment in future
