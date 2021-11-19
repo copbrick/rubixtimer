@@ -82,14 +82,14 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
     const { backgroundColor } = req.body;
 
-    const validationSchema = Joi.object({
+    const settingsValidationSchema = Joi.object({
       backgroundColor: Joi.string().pattern(
         new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
       ),
     });
 
     try {
-      await validationSchema.validateAsync(req.body);
+      await settingsValidationSchema.validateAsync({backgroundColor: backgroundColor});
 
       await database.updateBackgroundColor(
         req.oidc.user.email,
@@ -112,14 +112,20 @@ app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
 
     const statistics = { average, averageOf5 };
 
-    const validationSchema = Joi.object({
-      average: Joi.number().integer(),
+    const statisticsValidationSchema = Joi.object({
+      average: Joi.number().integer().min(0).strict(),
+      averageOf5: Joi.number().integer().min(0).strict(),
     });
+    
+    try {
+      await statisticsValidationSchema.validateAsync({average: average, averageOf5: averageOf5});
+      await database.updateStatistics(req.oidc.user.email, statistics);
 
-    const validationFlag = validationSchema.validate(statistics);
-
-    await database.updateStatistics(req.oidc.user.email, statistics);
-    res.sendStatus(200);
+      res.sendStatus(200);
+    } catch (err) {
+      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
+      return;
+    }
   } catch (err) {
     signale.error("Update Statistics Error: " + err);
   }
