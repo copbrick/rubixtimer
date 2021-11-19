@@ -87,17 +87,16 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
         new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
       ),
     });
-
-    const validationFlag = validationSchema.validate({ backgroundColor });
-
-    if (validationFlag.error) {
-      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
-    } else {
+    try {
+      await validationSchema.validateAsync(req.body);
       await database.updateBackgroundColor(
         req.oidc.user.email,
         backgroundColor
       );
       res.sendStatus(200);
+    } catch (err) {
+      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
+      return;
     }
   } catch (err) {
     signale.error("Update Settings Error: " + err);
@@ -106,10 +105,16 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
 
 app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
   try {
-    const average = req.body.average || undefined;
-    const averageOf5 = req.body.averageOf5 || undefined;
+    const { average, averageOf5 } = req.body;
 
     const statistics = { average, averageOf5 };
+
+    const validationSchema = Joi.object({
+      average: Joi.number().integer(),
+    });
+
+    const validationFlag = validationSchema.validate(statistics);
+
     await database.updateStatistics(req.oidc.user.email, statistics);
     res.sendStatus(200);
   } catch (err) {
