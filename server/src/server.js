@@ -118,7 +118,7 @@ app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
     });
     
     try {
-      await statisticsValidationSchema.validateAsync({average: average, averageOf5: averageOf5});
+      await statisticsValidationSchema.validateAsync(statistics);
       await database.updateStatistics(req.oidc.user.email, statistics);
 
       res.sendStatus(200);
