@@ -10,7 +10,7 @@ const issuerBaseURL = process.env.ISSUER_BASE_URL;
 import Database from "./classes/Database.js";
 const database = new Database(dbConn);
 
-import joi from "joi";
+import Joi from "joi";
 import express from "express";
 import slowDown from "express-slow-down";
 import signale from "signale";
@@ -80,8 +80,8 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
     const { backgroundColor } = req.body;
 
-    const validationSchema = joi.object({
-      backgroundColor: joi
+    const validationSchema = Joi.object({
+      backgroundColor: Joi
         .string()
         .pattern(new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")),
     });
