@@ -9,6 +9,8 @@ const clientID = process.env.CLIENT_ID;
 const issuerBaseURL = process.env.ISSUER_BASE_URL;
 import Database from "./classes/Database.js";
 const database = new Database(dbConn);
+
+import Joi from "joi";
 import express from "express";
 import slowDown from "express-slow-down";
 import signale from "signale";
@@ -70,6 +72,8 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
       res.json(userInfo);
     });
   } catch (err) {
+    res.send("couldn't find user from server - no bueno");
+    res.sendStatus(500);
     // signale.error("User Private Endpoint Error: " + err);
   }
 });
@@ -77,22 +81,51 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
 app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
     const { backgroundColor } = req.body;
-    await database.updateBackgroundColor(req.oidc.user.email, backgroundColor);
-    res.sendStatus(200);
+
+    const settingsValidationSchema = Joi.object({
+      backgroundColor: Joi.string().pattern(
+        new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
+      ),
+    });
+
+    try {
+      await settingsValidationSchema.validateAsync({backgroundColor: backgroundColor});
+
+      await database.updateBackgroundColor(
+        req.oidc.user.email,
+        backgroundColor
+      );
+
+      res.sendStatus(200);
+    } catch (err) {
+      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
+      return;
+    }
   } catch (err) {
     signale.error("Update Settings Error: " + err);
   }
 });
 
-//TODO: Work on fixing if only 1 statistic is changed and not the other. Currently, it sets the value that's not sent as null.
 app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
   try {
-    const average = req.body.average || undefined;
-    const averageOf5 = req.body.averageOf5 || undefined;
+    const { average, averageOf5 } = req.body;
 
     const statistics = { average, averageOf5 };
-    await database.updateStatistics(req.oidc.user.email, statistics);
-    res.sendStatus(200);
+
+    const statisticsValidationSchema = Joi.object({
+      average: Joi.number().integer().min(0).strict(),
+      averageOf5: Joi.number().integer().min(0).strict(),
+    });
+    
+    try {
+      await statisticsValidationSchema.validateAsync({average: average, averageOf5: averageOf5});
+      await database.updateStatistics(req.oidc.user.email, statistics);
+
+      res.sendStatus(200);
+    } catch (err) {
+      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
+      return;
+    }
   } catch (err) {
     signale.error("Update Statistics Error: " + err);
   }
