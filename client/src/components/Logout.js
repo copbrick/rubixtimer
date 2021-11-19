@@ -1,12 +1,11 @@
-import LoginBtn from "./LoginBtn";
+import LogoutButton from "./LogoutButton";
 
-function Logout() {
+export default function Logout() {
   return (
     <div className="App">
       <h1>Logged Out!</h1>
-      <LoginBtn />
+      <LogoutButton />
     </div>
   );
 }
 
-export default Logout;

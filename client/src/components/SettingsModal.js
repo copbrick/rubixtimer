@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
-import SettingsBtn from "./SettingsBtn";
+import SettingsButton from "./SettingsButton";
 import { GithubPicker } from "react-color";
 
 const style = {
@@ -29,7 +29,7 @@ export default function SettingsModal(props) {
 
   return (
     <div>
-      <SettingsBtn onClick={handleOpen}>Open modal</SettingsBtn>
+      <SettingsButton onClick={handleOpen}>Open modal</SettingsButton>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

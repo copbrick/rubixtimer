@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import LoginBtn from "./components/LoginBtn";
-import LogoutBtn from "./components/LogoutBtn";
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 import Data from "./components/Data";
 import SettingsModal from "./components/SettingsModal";
 import { useLocalStorage } from "./components/useLocalStorage";
@@ -22,8 +22,8 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal color={color} setColor={setColor} />
         <ProfileModal color={color} setColor={setColor} />
-        <LoginBtn />
-        <LogoutBtn />
+        <LoginButton />
+        <LogoutButton />
         <Data />
         <Scrambler scramble={scramble} setScramble={setScramble} />
       </header>
