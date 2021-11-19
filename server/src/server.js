@@ -87,12 +87,15 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
         new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
       ),
     });
+
     try {
       await validationSchema.validateAsync(req.body);
+
       await database.updateBackgroundColor(
         req.oidc.user.email,
         backgroundColor
       );
+
       res.sendStatus(200);
     } catch (err) {
       res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
