@@ -88,9 +88,10 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
       ),
     });
 
-    
     try {
-      await settingsValidationSchema.validateAsync({backgroundColor: backgroundColor});
+      await settingsValidationSchema.validateAsync({
+        backgroundColor: backgroundColor,
+      });
 
       await database.updateBackgroundColor(
         req.oidc.user.email,
@@ -117,7 +118,7 @@ app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
       average: Joi.number().integer().min(0).strict(),
       averageOf5: Joi.number().integer().min(0).strict(),
     });
-    
+
     try {
       await statisticsValidationSchema.validateAsync(statistics);
       await database.updateStatistics(req.oidc.user.email, statistics);
