@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../config/.env" });
+dotenv.config({ path: "../.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
 const secret = process.env.SECRET;
@@ -17,7 +17,7 @@ import signale from "signale";
 import path from "path";
 const __dirname = path.resolve();
 
-const app = express();
+export const app = express();
 
 //import auth from express open id connect, and configure it
 import pkg from "express-openid-connect";
