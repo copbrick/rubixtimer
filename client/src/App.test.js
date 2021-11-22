@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
-import supertest from 'supertest';
 
 test('searches for login button', () => {
   render(<App />);
