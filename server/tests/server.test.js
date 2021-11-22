@@ -12,3 +12,9 @@
 //   });
 // });
 
+it('should subtract two numbers', async () => {
+  expect(subtract(1, 2)).toEqual(-1);
+  expect(subtract(5,2)).toEqual(3);
+  expect(subtract(1, 2)).not.toEqual(0);
+  expect(subtract(1, 2)).not.toEqual(1);
+});
