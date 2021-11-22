@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import LoginBtn from "./components/LoginBtn";
-import LogoutBtn from "./components/LogoutBtn";
+import LoginButton from "./components/Buttons/LoginButton";
+import LogoutButton from "./components/Buttons/LogoutButton";
 import Data from "./components/Data";
 import SettingsModal from "./components/SettingsModal";
-import { useLocalStorage } from "./components/useLocalStorage";
-import { useDBStorage } from "./components/useDBStorage";
 import ProfileModal from "./components/ProfileModal";
+// import { useLocalStorage } from "./components/Hooks/useLocalStorage";
+import { useDBStorage } from "./components/Hooks/useDBStorage";
 import Scrambler from "./components/Scrambler";
+import StopwatchTimer from "./components/Timer/Stopwatch";
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
   const [color, setColor] = useDBStorage("color", "");
   const [scramble, setScramble] = useState("");
+
   return (
     <div className="App">
       {/* <header className="App-header" style={{ backgroundColor: color }}> */}
@@ -22,10 +24,11 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal color={color} setColor={setColor} />
         <ProfileModal color={color} setColor={setColor} />
-        <LoginBtn />
-        <LogoutBtn />
+        <LoginButton />
+        <LogoutButton />
         <Data />
         <Scrambler scramble={scramble} setScramble={setScramble} />
+        <StopwatchTimer />
       </header>
     </div>
   );

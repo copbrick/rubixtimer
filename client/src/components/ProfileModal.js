@@ -4,9 +4,9 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
-import ProfileButton from "./ProfileButton";
-import LogoutBtn from "./LogoutBtn";
-import {baseURL} from "../config/BaseURL";
+import ProfileButton from "./Buttons/ProfileButton";
+import LogoutButton from "./Buttons/LogoutButton";
+import { baseURL } from "../config/BaseURL";
 import axios from "axios";
 
 const style = {
@@ -55,14 +55,14 @@ export default function ProfileModal() {
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
-                Logged in as : {data.email ? data.email : "You are not currently logged in!"}
+              Logged in as :{" "}
+              {data.email ? data.email : "You are not currently logged in!"}
             </Typography>
             <Typography
               id="transition-modal-description"
               sx={{ mt: 2, overflowY: "visible" }}
-            >
-            </Typography>
-            <LogoutBtn />
+            ></Typography>
+            <LogoutButton />
           </Box>
         </Fade>
       </Modal>

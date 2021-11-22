@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../config/.env" });
+dotenv.config({ path: "../.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
 const secret = process.env.SECRET;
@@ -17,7 +17,7 @@ import signale from "signale";
 import path from "path";
 const __dirname = path.resolve();
 
-const app = express();
+export const app = express();
 
 //import auth from express open id connect, and configure it
 import pkg from "express-openid-connect";
@@ -89,7 +89,9 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
     });
 
     try {
-      await settingsValidationSchema.validateAsync({backgroundColor: backgroundColor});
+      await settingsValidationSchema.validateAsync({
+        backgroundColor: backgroundColor,
+      });
 
       await database.updateBackgroundColor(
         req.oidc.user.email,
@@ -116,7 +118,7 @@ app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
       average: Joi.number().integer().min(0).strict(),
       averageOf5: Joi.number().integer().min(0).strict(),
     });
-    
+
     try {
       await statisticsValidationSchema.validateAsync(statistics);
       await database.updateStatistics(req.oidc.user.email, statistics);
