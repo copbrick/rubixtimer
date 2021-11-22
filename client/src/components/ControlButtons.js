@@ -1,19 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ControlButtons.css";
 
 export default function ControlButtons(props) {
-  function handleKeyDown(event) {
-    console.log();
-    if (event.key === "Spacebar") {
-			alert('The sky is your starting point!')
-      // props.handleStart();
+  const [keyDown, setKeyDown] = useState(false);
+  const keyDownHandler = (e) => {
+    if (e.key === "a") {
+      setKeyDown(true);
+      console.log("a key is down");
     }
-  }
-  const StartButton = (
-    <div className="btn btn-one btn-start" onKeyDown={handleKeyDown}>
-      Start
-    </div>
-  );
+  };
 
   const ActiveButtons = (
     <div className="btn-grp">
@@ -27,8 +22,12 @@ export default function ControlButtons(props) {
   );
 
   return (
-    <div className="Control-Buttons">
-      <div>{props.active ? ActiveButtons : StartButton}</div>
-    </div>
+    // <div className="Control-Buttons">
+    //   <div>{props.active ? ActiveButtons : StartButton}</div>
+    // </div>
+
+    <input onKeyDown={keyDownHandler}>
+      {console.log(`Key pressed is ${keyDown}`)}
+    </input>
   );
 }
