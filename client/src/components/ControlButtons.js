@@ -4,13 +4,21 @@ import useEventListener from "@use-it/event-listener";
 
 export default function ControlButtons(props) {
   const SPACEBAR = ["32", " "];
+
   function handler({ key }) {
     if (SPACEBAR.includes(String(key))) {
-      console.log("Spacebar key pressed!");
-      props.handleStart();
+     props.handleStart();
+     console.log("Props is active : " + props.isPaused);
+     if (!props.isPaused && SPACEBAR.includes(String(key))) {
+       console.log("entered" + props.isPaused);
+       props.handleStop();
+     }
     }
   }
+  
+
   useEventListener("keydown", handler);
+
   const StartButton = (
     <div className="btn btn-one btn-start" onClick={props.handleStart}>
       Start

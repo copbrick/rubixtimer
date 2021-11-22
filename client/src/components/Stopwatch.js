@@ -23,9 +23,25 @@ function Stopwatch() {
     };
   }, [isActive, isPaused]);
 
-  const handleStart = (event) => {
+  const handleTimer = () => {
+    setIsActive(!isActive);
+    setIsPaused(!isPaused);
+
+    if(isActive == false) {
+      setTime(0);
+    }
+  };
+
+  const handleStart = () => {
     setIsActive(true);
     setIsPaused(false);
+  };
+
+
+  const handleStop = () => {
+    setIsActive(false);
+    setIsPaused(true);
+    setTime(0);
   };
 
   const handlePauseResume = () => {
@@ -33,7 +49,7 @@ function Stopwatch() {
   };
 
   const handleReset = () => {
-    setIsActive(false);
+    setIsPaused(false);
     setTime(0);
   };
 
@@ -43,7 +59,9 @@ function Stopwatch() {
       <ControlButtons
         active={isActive}
         isPaused={isPaused}
+        handleTimer={handleTimer}
         handleStart={handleStart}
+        handleStop={handleStop}
         handlePauseResume={handlePauseResume}
         handleReset={handleReset}
       />
