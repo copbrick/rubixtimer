@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./Stopwatch.css";
-import Timer from "./Timer";
+import DisplayTimer from "./DisplayTimer";
 import ControlTimer from "./ControlTimer";
 
-function Stopwatch() {
+function StopwatchTimer() {
   const [isActive, setIsActive] = useState(false);
   const [time, setTime] = useState(0);
 
@@ -32,10 +31,10 @@ function Stopwatch() {
 
   return (
     <div className="stop-watch">
-      <Timer time={time} />
+      <DisplayTimer time={time} />
       <ControlTimer handleTimer={handleTimer} />
     </div>
   );
 }
 
-export default Stopwatch;
+export default StopwatchTimer;

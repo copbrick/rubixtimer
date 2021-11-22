@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
-import SettingsButton from "./SettingsButton";
+import SettingsButton from "./Buttons/SettingsButton";
 import { GithubPicker } from "react-color";
 
 const style = {

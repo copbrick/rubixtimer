@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
-import ProfileButton from "./ProfileButton";
-import LogoutButton from "./LogoutButton";
+import ProfileButton from "./Buttons/ProfileButton";
+import LogoutButton from "./Buttons/LogoutButton";
 import { baseURL } from "../config/BaseURL";
 import axios from "axios";
 

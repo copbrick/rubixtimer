@@ -1,5 +1,4 @@
-import React from "react";
-import "./ControlButtons.css";
+//custom hook from library
 import useEventListener from "@use-it/event-listener";
 
 export default function ControlTimer(props) {
@@ -12,6 +11,5 @@ export default function ControlTimer(props) {
   }
 
   useEventListener("keydown", handler);
-
   return null;
 }
