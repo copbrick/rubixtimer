@@ -23,7 +23,7 @@ function Stopwatch() {
     };
   }, [isActive, isPaused]);
 
-  const handleStart = () => {
+  const handleStart = (event) => {
     setIsActive(true);
     setIsPaused(false);
   };

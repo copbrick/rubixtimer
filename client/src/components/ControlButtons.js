@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ControlButtons.css";
+import useEventListener from "@use-it/event-listener";
 
 export default function ControlButtons(props) {
-  const [keyDown, setKeyDown] = useState(false);
-  const keyDownHandler = (e) => {
-    if (e.key === "a") {
-      setKeyDown(true);
-      console.log("a key is down");
+  const SPACEBAR = ["32", " "];
+  function handler({ key }) {
+    if (SPACEBAR.includes(String(key))) {
+      console.log("Spacebar key pressed!");
+      props.handleStart();
     }
-  };
-
+  }
+  useEventListener("keydown", handler);
+  const StartButton = (
+    <div className="btn btn-one btn-start" onClick={props.handleStart}>
+      Start
+    </div>
+  );
   const ActiveButtons = (
     <div className="btn-grp">
       <div className="btn btn-two" onClick={props.handleReset}>
@@ -22,12 +28,8 @@ export default function ControlButtons(props) {
   );
 
   return (
-    // <div className="Control-Buttons">
-    //   <div>{props.active ? ActiveButtons : StartButton}</div>
-    // </div>
-
-    <input onKeyDown={keyDownHandler}>
-      {console.log(`Key pressed is ${keyDown}`)}
-    </input>
+    <div className="Control-Buttons">
+      <div>{props.active ? ActiveButtons : StartButton}</div>
+    </div>
   );
 }

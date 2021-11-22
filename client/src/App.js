@@ -11,11 +11,11 @@ import ProfileModal from "./components/ProfileModal";
 import Scrambler from "./components/Scrambler";
 import Stopwatch from "./components/Stopwatch";
 
-
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
   const [color, setColor] = useDBStorage("color", "");
   const [scramble, setScramble] = useState("");
+
   return (
     <div className="App">
       {/* <header className="App-header" style={{ backgroundColor: color }}> */}
