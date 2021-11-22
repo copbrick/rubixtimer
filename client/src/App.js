@@ -9,6 +9,8 @@ import { useLocalStorage } from "./components/useLocalStorage";
 import { useDBStorage } from "./components/useDBStorage";
 import ProfileModal from "./components/ProfileModal";
 import Scrambler from "./components/Scrambler";
+import Stopwatch from "./components/Stopwatch";
+
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
@@ -26,6 +28,7 @@ function App() {
         <LogoutButton />
         <Data />
         <Scrambler scramble={scramble} setScramble={setScramble} />
+        <Stopwatch />
       </header>
     </div>
   );
