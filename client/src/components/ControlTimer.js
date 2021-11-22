@@ -1,5 +1,4 @@
 import React from "react";
-import "./ControlButtons.css";
 import useEventListener from "@use-it/event-listener";
 
 export default function ControlTimer(props) {

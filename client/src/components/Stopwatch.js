@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Stopwatch.css";
+// import "./Stopwatch.css";
 import Timer from "./Timer";
 import ControlTimer from "./ControlTimer";
 
