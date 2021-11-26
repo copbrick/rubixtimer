@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: "../config/.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
 const secret = process.env.SECRET;
@@ -68,6 +68,7 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
         email: user.email,
         settings: user.settings,
         statistics: user.statistics,
+        times: user.times,
       };
       res.json(userInfo);
     });
@@ -130,6 +131,30 @@ app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
     }
   } catch (err) {
     signale.error("Update Statistics Error: " + err);
+  }
+});
+
+app.post("/api/update/times", requiresAuth(), async (req, res) => {
+  try {
+    const { time } = req.body;
+
+    const timesValidationSchema = Joi.object({
+      time: Joi.number().integer().min(0).strict(),
+    });
+
+    try {
+      await timesValidationSchema.validateAsync({
+        time: time,
+      });
+      await database.addTime(req.oidc.user.email, time);
+
+      res.sendStatus(200);
+    } catch (err) {
+      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
+      return;
+    }
+  } catch (err) {
+    signale.error("Update Times Error: " + err);
   }
 });
 

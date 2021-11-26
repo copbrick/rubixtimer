@@ -261,6 +261,25 @@ export default class Database {
     return signale.success("Profile Picture successfully updated!");
   }
 
+  async addTime(email, time) {
+    const user = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        $push: { times: time },
+      }
+    );
+
+    if (user === null) {
+      throw new Error(
+        "Couldn't find user based on username given. Try again..."
+      );
+    }
+
+    return signale.success("Time successfully added!");
+  }
+
   async updateStatistics(email, { average, averageOf5 }) {
     const updatedUser = await User.findOneAndUpdate(
       {

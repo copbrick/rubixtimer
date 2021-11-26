@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   //Our Schema
+  times: { type: Array, required: false },
   statistics: { type: Array, required: false },
   settings: { type: Array, required: false },
   profileImage: { type: String, required: false },
