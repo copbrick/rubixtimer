@@ -1,5 +1,4 @@
-import React from "react";
-import "./Timer.css";
+import "./DisplayTimer.css";
 
 export default function Timer(props) {
   return (

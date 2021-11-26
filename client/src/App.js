@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import LoginButton from "./components/LoginButton";
-import LogoutButton from "./components/LogoutButton";
+import LoginButton from "./components/Buttons/LoginButton";
+import LogoutButton from "./components/Buttons/LogoutButton";
 import Data from "./components/Data";
 import SettingsModal from "./components/SettingsModal";
-import { useLocalStorage } from "./components/useLocalStorage";
-import { useDBStorage } from "./components/useDBStorage";
 import ProfileModal from "./components/ProfileModal";
+// import { useLocalStorage } from "./components/Hooks/useLocalStorage";
+import { useDBStorage } from "./components/Hooks/useDBStorage";
 import Scrambler from "./components/Scrambler";
-import Stopwatch from "./components/Stopwatch";
+import StopwatchTimer from "./components/Timer/Stopwatch";
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
@@ -28,7 +28,7 @@ function App() {
         <LogoutButton />
         <Data />
         <Scrambler scramble={scramble} setScramble={setScramble} />
-        <Stopwatch />
+        <StopwatchTimer />
       </header>
     </div>
   );

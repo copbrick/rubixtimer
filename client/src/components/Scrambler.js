@@ -1,6 +1,6 @@
 import scrambleGenerator from "rubiks-cube-scramble";
 import React, { useEffect } from "react";
-import MaterialButton from "./MaterialButton";
+import MaterialButton from "./Buttons/MaterialButton";
 
 export default function Scrambler(props) {
   const handleScramble = () => {

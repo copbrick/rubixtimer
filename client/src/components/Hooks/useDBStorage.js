@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { baseURL } from "../config/BaseURL";
+import { baseURL } from "../../config/BaseURL";
 
 function getStorageValue(setValue) {
   //get from mongoDB

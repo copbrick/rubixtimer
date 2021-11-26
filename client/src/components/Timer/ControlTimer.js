@@ -11,6 +11,5 @@ export default function ControlTimer(props) {
   }
 
   useEventListener("keydown", handler);
-
   return null;
 }
