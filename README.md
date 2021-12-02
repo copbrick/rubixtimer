@@ -1,4 +1,4 @@
-## Tech stack so far
+## Tech stack so far - **IN DEVELOPMENT**
 
 ### Backend - `Node JS`
 
