@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "../config/.env" });
+dotenv.config({ path: "../.env" });
 const port = process.env.PORT;
 const dbConn = process.env.DB_CONN;
 const secret = process.env.SECRET;
