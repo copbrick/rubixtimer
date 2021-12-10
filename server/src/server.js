@@ -19,6 +19,15 @@ const __dirname = path.resolve();
 
 export const app = express();
 
+//Request/Response logging Middleware
+import morgan from "morgan";
+import rfs from "rotating-file-stream";
+let accessLogStream = rfs.createStream('access.log', {
+  interval: '1d', // rotate daily
+  path: path.join(__dirname, 'log')
+})
+app.use(morgan('combined', { stream: accessLogStream }))
+
 //import auth from express open id connect, and configure it
 import pkg from "express-openid-connect";
 const { auth, requiresAuth } = pkg;
