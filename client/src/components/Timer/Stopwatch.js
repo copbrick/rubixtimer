@@ -26,8 +26,8 @@ function StopwatchTimer() {
   const handleTimer = () => {
     setIsActive(true);
     if (isActive) {
-      setTime(0);
       setIsActive(false);
+      setTime(0);
     }
   };
 
