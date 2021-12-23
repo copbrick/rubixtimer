@@ -20,13 +20,13 @@ const __dirname = path.resolve();
 export const app = express();
 
 //Request/Response logging Middleware
-import morgan from "morgan";
-import rfs from "rotating-file-stream";
-let accessLogStream = rfs.createStream('access.log', {
-  interval: '1d', // rotate daily
-  path: path.join(__dirname, 'log')
-})
-app.use(morgan('combined', { stream: accessLogStream }))
+// import morgan from "morgan";
+// import rfs from "rotating-file-stream";
+// let accessLogStream = rfs.createStream('access.log', {
+//   interval: '1d', // rotate daily
+//   path: path.join(__dirname, 'log')
+// })
+// app.use(morgan('combined', { stream: accessLogStream }))
 
 //import auth from express open id connect, and configure it
 import pkg from "express-openid-connect";
@@ -82,8 +82,7 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
       res.json(userInfo);
     });
   } catch (err) {
-    res.send("couldn't find user from server - no bueno");
-    res.sendStatus(500);
+    res.send("couldn't find user from server - no bueno", 500);
     // signale.error("User Private Endpoint Error: " + err);
   }
 });
