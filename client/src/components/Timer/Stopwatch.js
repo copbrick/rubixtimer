@@ -16,14 +16,14 @@ function StopwatchTimer() {
         setTime((time) => time + 10);
       }, 10);
     } else {
-      axios
-        .post("/api/update/times", { time })
-        .then(() => {
-          console.log("time has been added to database");
-        })
-        .catch((err) => {
-          console.log("error adding time to database");
-        });
+      // axios
+      //   .post("/api/update/times", { time })
+      //   .then(() => {
+      //     console.log("time has been added to database");
+      //   })
+      //   .catch((err) => {
+      //     console.log("error adding time to database");
+      //   });
 
       clearInterval(interval);
     }
@@ -33,10 +33,11 @@ function StopwatchTimer() {
   }, [isActive]);
 
   const handleTimer = async () => {
+    setTime(0);
     setIsActive(true);
     if (isActive) {
       setIsActive(false);
-      setTime(0);
+      setTime(time);
     }
   };
 
