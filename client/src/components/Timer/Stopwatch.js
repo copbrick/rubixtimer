@@ -16,6 +16,15 @@ function StopwatchTimer() {
         setTime((time) => time + 10);
       }, 10);
     } else {
+      axios
+        .post("/api/update/times", { time })
+        .then(() => {
+          console.log("time has been added to database");
+        })
+        .catch((err) => {
+          console.log("error adding time to database");
+        });
+
       clearInterval(interval);
     }
     return () => {
@@ -23,7 +32,7 @@ function StopwatchTimer() {
     };
   }, [isActive]);
 
-  const handleTimer = () => {
+  const handleTimer = async () => {
     setIsActive(true);
     if (isActive) {
       setIsActive(false);
