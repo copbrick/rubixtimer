@@ -9,7 +9,6 @@ const clientID = process.env.CLIENT_ID;
 const issuerBaseURL = process.env.ISSUER_BASE_URL;
 import Database from "./classes/Database.js";
 const database = new Database(dbConn);
-//test
 
 import Joi from "joi";
 import express from "express";
