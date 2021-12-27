@@ -2,13 +2,16 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { baseURL } from "../../config/BaseURL";
 
-function getStorageValue(setValue) {
+function getStorageValue(key, setValue) {
   axios
     .get(`${baseURL}/api/user`)
     .then((res) => {
-      if (!(res.data.settings[0])) {
+      if (!(res.data.settings[0][key])) {
+        console.log("no settings found");
       } else {
-        setValue(res.data.settings[0].backgroundColor);
+        console.table(res.data.settings[0]);
+        console.log("in get req: " + res.data.settings[0][key]);
+        setValue(res.data.settings[0][key]);
       }
     })
     .catch((err) => {
@@ -18,17 +21,18 @@ function getStorageValue(setValue) {
 
 export const useDBStorage = (key, defaultValue) => {
   const [value, setValue] = useState(defaultValue);
-
+  const temp = key;
+  console.log("temp is " + temp);
   useEffect(() => {
-    getStorageValue(setValue);
+    getStorageValue(temp, setValue);
   }, []);
 
   const set = (newValue) => {
     setValue(newValue);
     const url = `${baseURL}/api/update/settings`;
     let body;
-    if (key === "color") {
-      body = { backgroundColor: newValue.backgroundColor };
+    if (key === "backgroundColor") {
+      body = { backgroundColor: newValue };
     }
     axios.post(url, body).catch((err) => {
       console.log("post err" + err);
