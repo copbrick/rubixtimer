@@ -305,15 +305,16 @@ export default class Database {
     return signale.success("Statistic successfully updated!");
   }
 
-  async updateBackgroundColor(email, newBackgroundColor) {
+  async updateSettings(email, newSettings) {
+    console.log("update settings called");
+    console.log("new settings type is: " + typeof newSettings);
+    console.table(newSettings);
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
       },
       {
-        settings: {
-          backgroundColor: newBackgroundColor,
-        },
+        $set: {settings: newSettings},
       },
       {
         returnDocument: "after",
@@ -324,7 +325,7 @@ export default class Database {
       return signale.error("Couldn't find email. User not updated.");
     }
 
-    return signale.success("Background Color successfully updated!");
+    return signale.success("Settings successfully updated!");
   }
 
   async clearStatistics(email) {
