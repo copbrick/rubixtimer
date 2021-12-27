@@ -7,14 +7,17 @@ function getStorageValue(setValue) {
   axios
     .get(`${baseURL}/api/user`)
     .then((res) => {
-      console.log("res data from get " + res.data.settings[0].backgroundColor);
-      if (res.data.settings[0].backgroundColor === null) {
+      // console.log("res data from get " + res.data.settings[0]);
+      console.table(res.data.settings[0]);
+      if (!res.data.settings[0]) {
         console.log("its null");
       } else {
-        setValue(res.data.settings[0].backgroundColor);
+        console.log("its not null");
+        setValue(res.data.settings[0]);
       }
     })
     .catch((err) => {
+      console.log("err" + err);
       return "err" + err;
     });
 }
@@ -29,7 +32,9 @@ export const useDBStorage = (key, defaultValue) => {
   const set = (newValue) => {
     setValue(newValue);
     const url = `${baseURL}/api/update/settings`;
-    const body = { backgroundColor: newValue };
+    const body = newValue;
+    console.log("body " + body);
+    console.log("type of body is:" + typeof body);
     axios
       .post(url, body)
       .then((res) => {

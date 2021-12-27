@@ -89,7 +89,9 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
 
 app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
-    const { backgroundColor } = req.body;
+    const settings = req.body;
+    console.log("settings -----")
+    console.table(settings);
 
     const settingsValidationSchema = Joi.object({
       backgroundColor: Joi.string().pattern(
@@ -99,12 +101,12 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
 
     try {
       await settingsValidationSchema.validateAsync({
-        backgroundColor: backgroundColor,
+        backgroundColor: settings.backgroundColor,
       });
 
-      await database.updateBackgroundColor(
+      await database.updateSettings(
         req.oidc.user.email,
-        backgroundColor
+        settings
       );
 
       res.sendStatus(200);
