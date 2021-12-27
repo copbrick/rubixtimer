@@ -23,7 +23,7 @@ function App() {
       {/* {console.log("color type is: " + typeof color)}
       {console.table(color)} */}
       {console.log(color)}
-      <header className="App-header" style={{ backgroundColor: color.backgroundColor }}>
+      <header className="App-header" style={{ backgroundColor: color }}>
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal color={color} setColor={setColor} />
         <ProfileModal />
