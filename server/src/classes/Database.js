@@ -306,9 +306,7 @@ export default class Database {
   }
 
   async updateSettings(email, newSettings) {
-    console.log("update settings called");
     console.log("new settings type is: " + typeof newSettings);
-    console.table(newSettings);
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
