@@ -30,12 +30,11 @@ export const useDBStorage = (key, defaultValue) => {
   }, []);
 
   const set = (newValue) => {
-    console.log("new value -------");
-    console.table(newValue);
     setValue(newValue);
     const url = `${baseURL}/api/update/settings`;
     const body = newValue;
     console.log("body " + body);
+    console.log("type of body is:" + typeof body);
     axios
       .post(url, body)
       .then((res) => {
