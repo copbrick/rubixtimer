@@ -20,9 +20,10 @@ function App() {
     <div className="App">
       {/* <header className="App-header" style={{ backgroundColor: color }}> */}
       {/* <header className="App-header" style = {{backgroundColor : color === null ? 'black' : color}}> */}
-      {console.log("color type is: " + typeof color)}
-      {console.table(color)}
-      <header className="App-header" style={{ backgroundColor: color }}>
+      {/* {console.log("color type is: " + typeof color)}
+      {console.table(color)} */}
+      {console.log(color)}
+      <header className="App-header" style={{ backgroundColor: color.backgroundColor }}>
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal color={color} setColor={setColor} />
         <ProfileModal />

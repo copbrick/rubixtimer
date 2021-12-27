@@ -13,7 +13,9 @@ function getStorageValue(setValue) {
         console.log("its null");
       } else {
         console.log("its not null");
-        setValue(res.data.settings[0]);
+        setValue({
+          backgroundColor: res.data.settings[0].backgroundColor
+        });
       }
     })
     .catch((err) => {
@@ -30,9 +32,18 @@ export const useDBStorage = (key, defaultValue) => {
   }, []);
 
   const set = (newValue) => {
+    console.log("newValue is: " + newValue);
+    console.table(newValue);
     setValue(newValue);
+
+    const backgroundColor = newValue.backgroundColor;
+    // const theme = newValue.theme === undefined ? null : newValue.theme;
+
     const url = `${baseURL}/api/update/settings`;
-    const body = newValue;
+    const body = {
+      backgroundColor: backgroundColor,
+      // theme: theme,
+    };
     console.log("body " + body);
     console.log("type of body is:" + typeof body);
     axios
