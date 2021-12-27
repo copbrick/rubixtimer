@@ -21,10 +21,8 @@ function getStorageValue(key, setValue) {
 
 export const useDBStorage = (key, defaultValue) => {
   const [value, setValue] = useState(defaultValue);
-  const temp = key;
-  console.log("temp is " + temp);
   useEffect(() => {
-    getStorageValue(temp, setValue);
+    getStorageValue(key, setValue);
   }, []);
 
   const set = (newValue) => {
