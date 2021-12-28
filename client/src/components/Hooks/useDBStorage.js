@@ -6,7 +6,7 @@ function getStorageValue(key, setValue) {
   axios
     .get(`${baseURL}/api/user`)
     .then((res) => {
-      if (!(res.data.settings[0][key])) {
+      if (!res.data.settings[0][key]) {
         console.log("no settings found");
       } else {
         console.table(res.data.settings[0]);
@@ -28,10 +28,7 @@ export const useDBStorage = (key, defaultValue) => {
   const set = (newValue) => {
     setValue(newValue);
     const url = `${baseURL}/api/update/settings`;
-    let body;
-    if (key === "backgroundColor") {
-      body = { backgroundColor: newValue };
-    }
+    let body = { [key]: newValue };
     axios.post(url, body).catch((err) => {
       console.log("post err" + err);
     });

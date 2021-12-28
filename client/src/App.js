@@ -10,11 +10,15 @@ import ProfileModal from "./components/ProfileModal";
 import { useDBStorage } from "./components/Hooks/useDBStorage";
 import Scrambler from "./components/Scrambler";
 import StopwatchTimer from "./components/Timer/Stopwatch";
+import { Button } from "@mui/material";
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
   const [color, setColor] = useDBStorage("backgroundColor", "");
   const [scramble, setScramble] = useState("");
+
+  const [counter, setCounter] = useDBStorage("counter", 0);
+  const incrementCounter = () => setCounter(counter + 1);
 
   return (
     <div className="App">
@@ -31,6 +35,8 @@ function App() {
         <Data />
         <Scrambler scramble={scramble} setScramble={setScramble} />
         <StopwatchTimer />
+        <button onClick={incrementCounter}>-</button>
+        <h5>Count is {counter}</h5>
       </header>
     </div>
   );

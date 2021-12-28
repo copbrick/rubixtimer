@@ -305,14 +305,13 @@ export default class Database {
     return signale.success("Statistic successfully updated!");
   }
 
-  async updateSettings(email, newSettings) {
-    console.log("new settings type is: " + typeof newSettings);
+  async updateSettings(email, key, value) {
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
       },
       {
-        $set: {settings: newSettings},
+        $set: { [`settings.${key}`]: value },
       },
       {
         returnDocument: "after",
