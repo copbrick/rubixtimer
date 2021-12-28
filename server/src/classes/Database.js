@@ -312,7 +312,7 @@ export default class Database {
         email: email,
       },
       {
-        $set: {settings: newSettings},
+        $mergeObjects: {settings: newSettings},
       },
       {
         returnDocument: "after",
