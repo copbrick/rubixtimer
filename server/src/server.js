@@ -89,25 +89,23 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
 
 app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
-    const settings = req.body;
-    console.log("settings -----")
-    console.table(settings);
+    const key = Object.keys(req.body)[0];
+
+    const value = req.body[key];
 
     const settingsValidationSchema = Joi.object({
       backgroundColor: Joi.string().pattern(
         new RegExp("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
       ),
+      counter: Joi.number().integer().min(0),
     });
 
     try {
       await settingsValidationSchema.validateAsync({
-        backgroundColor: settings.backgroundColor,
+        [key]: value,
       });
 
-      await database.updateSettings(
-        req.oidc.user.email,
-        settings
-      );
+      await database.updateSettings(req.oidc.user.email, key, value);
 
       res.sendStatus(200);
     } catch (err) {
