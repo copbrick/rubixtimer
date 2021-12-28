@@ -13,17 +13,19 @@ import StopwatchTimer from "./components/Timer/Stopwatch";
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
-  const [color, setColor] = useDBStorage("color", "");
+  const [color, setColor] = useDBStorage("backgroundColor", "");
   const [scramble, setScramble] = useState("");
 
   return (
     <div className="App">
       {/* <header className="App-header" style={{ backgroundColor: color }}> */}
       {/* <header className="App-header" style = {{backgroundColor : color === null ? 'black' : color}}> */}
+      {/* {console.log("color type is: " + typeof color)}
+      {console.table(color)} */}
       <header className="App-header" style={{ backgroundColor: color }}>
         <img src={logo} className="App-logo" alt="logo" />
         <SettingsModal color={color} setColor={setColor} />
-        <ProfileModal color={color} setColor={setColor} />
+        <ProfileModal />
         <LoginButton />
         <LogoutButton />
         <Data />

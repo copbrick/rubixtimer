@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+// import "./Stopwatch.css";
 import DisplayTimer from "./DisplayTimer";
 import ControlTimer from "./ControlTimer";
 
@@ -14,6 +16,15 @@ function StopwatchTimer() {
         setTime((time) => time + 10);
       }, 10);
     } else {
+      // axios
+      //   .post("/api/update/times", { time })
+      //   .then(() => {
+      //     console.log("time has been added to database");
+      //   })
+      //   .catch((err) => {
+      //     console.log("error adding time to database");
+      //   });
+
       clearInterval(interval);
     }
     return () => {
@@ -21,11 +32,12 @@ function StopwatchTimer() {
     };
   }, [isActive]);
 
-  const handleTimer = () => {
+  const handleTimer = async () => {
+    setTime(0);
     setIsActive(true);
     if (isActive) {
-      setTime(0);
       setIsActive(false);
+      setTime(time);
     }
   };
 

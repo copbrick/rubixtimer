@@ -1,4 +1,4 @@
-//custom hook from library
+import React from "react";
 import useEventListener from "@use-it/event-listener";
 
 export default function ControlTimer(props) {

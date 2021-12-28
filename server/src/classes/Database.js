@@ -261,6 +261,25 @@ export default class Database {
     return signale.success("Profile Picture successfully updated!");
   }
 
+  async addTime(email, time) {
+    const user = await User.findOneAndUpdate(
+      {
+        email: email,
+      },
+      {
+        $push: { times: time },
+      }
+    );
+
+    if (user === null) {
+      throw new Error(
+        "Couldn't find user based on username given. Try again..."
+      );
+    }
+
+    return signale.success("Time successfully added!");
+  }
+
   async updateStatistics(email, { average, averageOf5 }) {
     const updatedUser = await User.findOneAndUpdate(
       {
@@ -286,15 +305,14 @@ export default class Database {
     return signale.success("Statistic successfully updated!");
   }
 
-  async updateBackgroundColor(email, newBackgroundColor) {
+  async updateSettings(email, newSettings) {
+    console.log("new settings type is: " + typeof newSettings);
     const updatedUser = await User.findOneAndUpdate(
       {
         email: email,
       },
       {
-        settings: {
-          backgroundColor: newBackgroundColor,
-        },
+        $set: {settings: newSettings},
       },
       {
         returnDocument: "after",
@@ -305,7 +323,7 @@ export default class Database {
       return signale.error("Couldn't find email. User not updated.");
     }
 
-    return signale.success("Background Color successfully updated!");
+    return signale.success("Settings successfully updated!");
   }
 
   async clearStatistics(email) {

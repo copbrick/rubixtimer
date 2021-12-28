@@ -19,6 +19,15 @@ const __dirname = path.resolve();
 
 export const app = express();
 
+//Request/Response logging Middleware
+// import morgan from "morgan";
+// import rfs from "rotating-file-stream";
+// let accessLogStream = rfs.createStream('access.log', {
+//   interval: '1d', // rotate daily
+//   path: path.join(__dirname, 'log')
+// })
+// app.use(morgan('combined', { stream: accessLogStream }))
+
 //import auth from express open id connect, and configure it
 import pkg from "express-openid-connect";
 const { auth, requiresAuth } = pkg;
@@ -68,19 +77,21 @@ app.get("/api/user", requiresAuth(), async (req, res) => {
         email: user.email,
         settings: user.settings,
         statistics: user.statistics,
+        times: user.times,
       };
       res.json(userInfo);
     });
   } catch (err) {
-    res.send("couldn't find user from server - no bueno");
-    res.sendStatus(500);
+    res.send("couldn't find user from server - no bueno", 500);
     // signale.error("User Private Endpoint Error: " + err);
   }
 });
 
 app.post("/api/update/settings", requiresAuth(), async (req, res) => {
   try {
-    const { backgroundColor } = req.body;
+    const settings = req.body;
+    console.log("settings -----")
+    console.table(settings);
 
     const settingsValidationSchema = Joi.object({
       backgroundColor: Joi.string().pattern(
@@ -90,12 +101,12 @@ app.post("/api/update/settings", requiresAuth(), async (req, res) => {
 
     try {
       await settingsValidationSchema.validateAsync({
-        backgroundColor: backgroundColor,
+        backgroundColor: settings.backgroundColor,
       });
 
-      await database.updateBackgroundColor(
+      await database.updateSettings(
         req.oidc.user.email,
-        backgroundColor
+        settings
       );
 
       res.sendStatus(200);
@@ -130,6 +141,30 @@ app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
     }
   } catch (err) {
     signale.error("Update Statistics Error: " + err);
+  }
+});
+
+app.post("/api/update/times", requiresAuth(), async (req, res) => {
+  try {
+    const { time } = req.body;
+
+    const timesValidationSchema = Joi.object({
+      time: Joi.number().integer().min(0).strict(),
+    });
+
+    try {
+      await timesValidationSchema.validateAsync({
+        time: time,
+      });
+      await database.addTime(req.oidc.user.email, time);
+
+      res.sendStatus(200);
+    } catch (err) {
+      res.status(400).send("what you doing here bruv 凸ಠ益ಠ)凸");
+      return;
+    }
+  } catch (err) {
+    signale.error("Update Times Error: " + err);
   }
 });
 
