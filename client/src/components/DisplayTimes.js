@@ -24,14 +24,20 @@ function Data() {
       <br />
       {isLoading ? (
         <div>
-          <Spinner animation="border" role="status" variant="info">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+            <h2>Loading times...</h2>
         </div>
       ) : (
         <div>
-          {/* <h1>Data</h1>
-          <h2>Email: {data.email}</h2> */}
+          <h1>Times</h1>
+          <ul>
+            {data.times.map((time) => {
+              return (
+                <div>
+                  <li>{time}</li>
+                </div>
+              );
+            })}
+          </ul>
         </div>
       )}
     </div>

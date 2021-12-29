@@ -9,8 +9,8 @@ function getStorageValue(key, setValue) {
       if (!res.data.settings[0][key]) {
         console.log("no settings found");
       } else {
-        console.table(res.data.settings[0]);
-        console.log("in get req: " + res.data.settings[0][key]);
+        // console.table(res.data.settings[0]);
+        // console.log("in get req: " + res.data.settings[0][key]);
         setValue(res.data.settings[0][key]);
       }
     })

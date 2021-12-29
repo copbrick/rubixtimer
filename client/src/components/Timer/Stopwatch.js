@@ -10,21 +10,20 @@ function StopwatchTimer() {
 
   useEffect(() => {
     let interval = null;
-
     if (isActive === true) {
       interval = setInterval(() => {
         setTime((time) => time + 10);
       }, 10);
-    } else {
-      // axios
-      //   .post("/api/update/times", { time })
-      //   .then(() => {
-      //     console.log("time has been added to database");
-      //   })
-      //   .catch((err) => {
-      //     console.log("error adding time to database");
-      //   });
-
+    } 
+    else if (time != 0 && isActive === false) {
+      axios
+        .post("/api/update/times", { time })
+        .then(() => {
+          console.log("time has been added to database");
+        })
+        .catch((err) => {
+          console.log("error adding time to database" + err);
+        });
       clearInterval(interval);
     }
     return () => {

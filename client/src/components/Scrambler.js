@@ -15,9 +15,11 @@ export default function Scrambler(props) {
 
   return (
     <div>
-      <MaterialButton onClick = {handleScramble} text="Scramble!"></MaterialButton>
-      <br />
-      <strong>{props.scramble}</strong>
+      <strong>{props.scramble}</strong> <br />
+      <MaterialButton
+        onClick={handleScramble}
+        text="Scramble!"
+      ></MaterialButton>
     </div>
   );
 }
