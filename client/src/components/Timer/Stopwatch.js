@@ -14,7 +14,8 @@ function StopwatchTimer() {
       interval = setInterval(() => {
         setTime((time) => time + 10);
       }, 10);
-    } else if (time != 0 && isActive === false) {
+    } else if (isActive === false && time !== 0) {
+      console.log(time);
       axios
         .post("/api/update/times", { time })
         .then(() => {
@@ -23,12 +24,11 @@ function StopwatchTimer() {
         .catch((err) => {
           console.log("error adding time to database" + err);
         });
-      clearInterval(interval);
     }
     return () => {
       clearInterval(interval);
     };
-  }, [isActive]);
+  }, [isActive, time]);
 
   const handleTimer = async () => {
     setTime(0);
