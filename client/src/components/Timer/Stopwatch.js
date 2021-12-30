@@ -14,8 +14,7 @@ function StopwatchTimer() {
       interval = setInterval(() => {
         setTime((time) => time + 10);
       }, 10);
-    } 
-    else if (time != 0 && isActive === false) {
+    } else if (time != 0 && isActive === false) {
       axios
         .post("/api/update/times", { time })
         .then(() => {
