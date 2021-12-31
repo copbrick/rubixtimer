@@ -3,8 +3,9 @@ import axios from "axios";
 // import "./Stopwatch.css";
 import DisplayTimer from "./DisplayTimer";
 import ControlTimer from "./ControlTimer";
+import { getThemeProps } from "@mui/system";
 
-function StopwatchTimer() {
+function StopwatchTimer(props) {
   const [isActive, setIsActive] = useState(false);
   const [time, setTime] = useState(0);
 
@@ -16,14 +17,7 @@ function StopwatchTimer() {
       }, 10);
     } else if (isActive === false && time !== 0) {
       console.log(time);
-      axios
-        .post("/api/update/times", { time })
-        .then(() => {
-          console.log("time has been added to database");
-        })
-        .catch((err) => {
-          console.log("error adding time to database" + err);
-        });
+      props.setTimes(time);
     }
     return () => {
       clearInterval(interval);

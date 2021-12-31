@@ -8,14 +8,15 @@ import ProfileModal from "./components/ProfileModal";
 import Data from "./components/Data";
 // import { useLocalStorage } from "./components/Hooks/useLocalStorage";
 import { useDBStorage } from "./components/Hooks/useDBStorage";
+import { useTimeStorage } from "./components/Hooks/useTimeStorage";
 import Scrambler from "./components/Scrambler";
 import StopwatchTimer from "./components/Timer/Stopwatch";
 import DisplayTimes from "./components/DisplayTimes";
-import { Button } from "@mui/material";
 
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
   const [color, setColor] = useDBStorage("backgroundColor", "");
+  const [times, setTimes] = useTimeStorage("times", "");
   const [scramble, setScramble] = useState("");
 
   return (
@@ -27,9 +28,14 @@ function App() {
         <LoginButton />
         <LogoutButton />
         <Scrambler scramble={scramble} setScramble={setScramble} />
-        <StopwatchTimer />
+        <StopwatchTimer times={times} setTimes={setTimes} />
         <Data />
-        <DisplayTimes />
+        <div>
+          <h1>Times</h1>
+          <ul>
+            {times}
+          </ul>
+        </div>
       </header>
     </div>
   );

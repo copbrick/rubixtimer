@@ -6,12 +6,12 @@ function getStorageValue(key, setValue) {
   axios
     .get(`${baseURL}/api/user`)
     .then((res) => {
-      if (!res.data.settings[0][key]) {
+      if (!res.data.times) {
         console.log("no settings found");
       } else {
-        console.table(res.data.settings[0]);
-        console.log("in get req: " + res.data.settings[0][key]);
-        setValue(res.data.settings[0][key]);
+        console.table(res.data.times);
+        console.log("in get req: " + res.data.times);
+        setValue(res.data.times);
       }
     })
     .catch((err) => {
@@ -19,7 +19,7 @@ function getStorageValue(key, setValue) {
     });
 }
 
-export const useDBStorage = (key, defaultValue) => {
+export const useTimeStorage = (key, defaultValue) => {
   const [value, setValue] = useState(defaultValue);
   useEffect(() => {
     getStorageValue(key, setValue);
@@ -27,7 +27,7 @@ export const useDBStorage = (key, defaultValue) => {
 
   const set = (newValue) => {
     setValue(newValue);
-    const url = `${baseURL}/api/update/settings`;
+    const url = `${baseURL}/api/update/times`;
     let body = { [key]: newValue };
     axios.post(url, body).catch((err) => {
       console.log("post err" + err);

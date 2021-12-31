@@ -144,17 +144,17 @@ app.post("/api/update/statistics", requiresAuth(), async (req, res) => {
 
 app.post("/api/update/times", requiresAuth(), async (req, res) => {
   try {
-    const { time } = req.body;
+    const { times } = req.body;
 
     const timesValidationSchema = Joi.object({
-      time: Joi.number().integer().min(0).strict(),
+      times: Joi.number().integer().min(0).strict(),
     });
 
     try {
-      await timesValidationSchema.validateAsync({
-        time: time,
-      });
-      await database.addTime(req.oidc.user.email, time);
+      // await timesValidationSchema.validateAsync({
+      //   time: time,
+      // });
+      await database.addTime(req.oidc.user.email, times);
 
       res.sendStatus(200);
     } catch (err) {
