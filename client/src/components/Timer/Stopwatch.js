@@ -3,11 +3,11 @@ import axios from "axios";
 // import "./Stopwatch.css";
 import DisplayTimer from "./DisplayTimer";
 import ControlTimer from "./ControlTimer";
-import { getThemeProps } from "@mui/system";
 
 function StopwatchTimer(props) {
   const [isActive, setIsActive] = useState(false);
   const [time, setTime] = useState(0);
+  const [times, setTimes] = useState([]);
 
   useEffect(() => {
     let interval = null;
@@ -16,8 +16,9 @@ function StopwatchTimer(props) {
         setTime((time) => time + 10);
       }, 10);
     } else if (isActive === false && time !== 0) {
-      console.log(time);
-      props.setTimes(time);
+      const newTimes = [...times, time];
+      setTimes(newTimes);
+      props.setTimes(newTimes); 
     }
     return () => {
       clearInterval(interval);

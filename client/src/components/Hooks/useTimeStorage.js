@@ -11,6 +11,7 @@ function getStorageValue(key, setValue) {
       } else {
         console.table(res.data.times);
         console.log("in get req: " + res.data.times);
+        console.log("type of res.data.times is" + typeof res.data.times);
         setValue(res.data.times);
       }
     })
@@ -29,6 +30,7 @@ export const useTimeStorage = (key, defaultValue) => {
     setValue(newValue);
     const url = `${baseURL}/api/update/times`;
     let body = { [key]: newValue };
+    console.log("in set: " + Object.values(body));
     axios.post(url, body).catch((err) => {
       console.log("post err" + err);
     });

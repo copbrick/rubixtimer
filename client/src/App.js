@@ -16,7 +16,7 @@ import DisplayTimes from "./components/DisplayTimes";
 function App() {
   // const [color, setColor] = useLocalStorage("color", "");
   const [color, setColor] = useDBStorage("backgroundColor", "");
-  const [times, setTimes] = useTimeStorage("times", "");
+  const [times, setTimes] = useTimeStorage("times", []);
   const [scramble, setScramble] = useState("");
 
   return (
@@ -31,9 +31,9 @@ function App() {
         <StopwatchTimer times={times} setTimes={setTimes} />
         <Data />
         <div>
-          <h1>Times</h1>
+        <h1>Times</h1>
           <ul>
-            {times}
+            {times ? times.map((time, i) => <li key = {i}>{time}</li>) : "Loading your times..."}
           </ul>
         </div>
       </header>
