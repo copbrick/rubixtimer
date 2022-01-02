@@ -1,5 +1,7 @@
 ## Tech stack so far - **IN DEVELOPMENT**
 
+[![wakatime](https://wakatime.com/badge/github/copbrick/rubixtimer.svg)](https://wakatime.com/badge/github/copbrick/rubixtimer)
+
 ### Backend - `Node JS`
 
 `Auth0` - Primary authentication system
